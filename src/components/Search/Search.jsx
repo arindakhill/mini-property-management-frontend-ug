@@ -8,18 +8,19 @@ import PropertyTypeFilter from "./PropertyTypeFilter";
 
 const Search = () => {
 
-  const { searchHandler } = useContext(HouseContext);
+  const { searchHandler, clearFilters } = useContext(HouseContext);
 
   return (
     <Flex my='3' direction='column' borderRadius='md' bg='#fff' boxShadow='md' p='5'>
 
-      <Heading py='2' size={{base: 'sm', md: 'md'}}>Search the price you looking for</Heading>
+      <Heading py='2' size={{base: 'sm', md: 'md'}}>Discover Your Dream Property</Heading>
 
       <Flex gap={{base: 3, md: 2}} direction={{base: 'column', md:'row'}} borderRadius='30'>
         <LocationFilter />
         <PropertyTypeFilter />
         <PriceFilter />
         <Button onClick={searchHandler} p={{base: 3, md: 2}} size="100%">Search</Button>
+        <Button onClick={clearFilters} p={{base: 3, md: 2}} size="100%" colorScheme='red'>Clear</Button>
       </Flex>
     </Flex>
   )

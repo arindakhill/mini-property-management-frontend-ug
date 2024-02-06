@@ -13,13 +13,14 @@ const Form = ({searchedHouse}) => {
 
         <VStack my='3px' spacing='2px'>
             <form>
-                <Input mt='3' mb='2' placeholder="Name*" />
-                <Input placeholder="Email*" />
-                <Input my='2' placeholder="Phone*" />
+              
                 <Textarea my='2' placeholder='Message*' size='sm'  defaultValue='Hello, I am interested in [Modern apartment]' />
                 <HStack my='2'>
+                <Button w='full' px='4' bg='green.300'>Place Offer</Button>
                     <Button w='full' px='4'>Send Message</Button>
                     <Button w={{base: 'full', md: '50%'}} variant='outline'>Call</Button>
+                  
+
                 </HStack>
             </form>
         </VStack>

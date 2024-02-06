@@ -33,6 +33,7 @@ const App = () => {
           <Route path='property-details' element={ <PropertyDetails /> } >
             <Route path=":propertyId" element={<HouseDetails />} />
           </Route>
+          <Route path="/signup" element={<UserRegistration/>}/>
           <Route path="*"
                 element={ <main style={{ padding: "1rem" }}>
                             <p>There's nothing here!</p>

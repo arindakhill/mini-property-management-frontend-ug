@@ -5,6 +5,7 @@ import Dashboard from '../Owner/OwnerDashboardComponent';
 
 const Header = () => {
   const isDesktop = useBreakpointValue({ base: false, lg: true })
+  const navigate = useNavigate();
 
   return (
     <chakra.header id="header" borderBottom='1px solid rgb(0,0,0,0.3)'>

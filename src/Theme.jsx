@@ -1,5 +1,11 @@
 import { extendTheme, theme as base, withDefaultVariant } from "@chakra-ui/react"
 
+
+
+
+
+
+
 const breakpoints = {
   sm: '320px',
   md: '500px',
@@ -17,7 +23,10 @@ export const theme = extendTheme({
   styles: {
     global: {
         body: {
-            bg: 'pink.50'
+           /** bg: 'gray.50'*/ 
+           /**bgGradient: 'linear(to-r, teal.100, blue.200)' */ 
+           /*bgGradient: 'linear(to-r, gray.300, blueGray.500, gray.500)'*/
+           bgGradient: 'linear(to-r, gray.100, gray.300)'
         }
     }
   },

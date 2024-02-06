@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { HouseContext } from "../../context/HouseContext";
 
 const PriceFilter = () => {
-  const { setPrice } = useContext(HouseContext);
+  const { price, setPrice } = useContext(HouseContext);
 
   const prices = [
     { value: "20000 - 30000" },
@@ -19,7 +19,7 @@ const PriceFilter = () => {
   };
 
   return (
-    <Select placeholder="select price" onChange={priceHandler}>
+    <Select value={price} onChange={priceHandler} placeholder="Select Price">
       {prices.map((price, index) =>
           <option key={index}>{price.value}</option>
         )

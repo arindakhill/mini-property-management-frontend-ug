@@ -64,7 +64,7 @@ export const housesData = [
   {
     id: 1,
     type: 'House',
-    name: 'House 1',
+    name: '306 E Burlington Ave, Fairfield, IA 52556',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House1,
@@ -85,7 +85,7 @@ export const housesData = [
   {
     id: 2,
     type: 'House',
-    name: 'House 2',
+    name: 'HOUSE PLAN',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House2,
@@ -106,7 +106,7 @@ export const housesData = [
   {
     id: 3,
     type: 'House',
-    name: 'House 3',
+    name: 'TING THIS',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House3,
@@ -127,7 +127,7 @@ export const housesData = [
   {
     id: 4,
     type: 'House',
-    name: 'House 4',
+    name: 'BAD MAN',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House4,
@@ -148,7 +148,7 @@ export const housesData = [
   {
     id: 5,
     type: 'House',
-    name: 'House 5',
+    name: 'COLLIN KABWAMA',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House5,
@@ -169,7 +169,7 @@ export const housesData = [
   {
     id: 6,
     type: 'House',
-    name: 'House 6',
+    name: 'JAMES BALIMUNSI',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House6,
@@ -190,7 +190,7 @@ export const housesData = [
   {
     id: 7,
     type: 'Apartament',
-    name: 'Apartament 1',
+    name: 'TONNY KAKOOZA',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: Apartment1,
@@ -211,7 +211,7 @@ export const housesData = [
   {
     id: 8,
     type: 'Apartament',
-    name: 'Apartament 2',
+    name: 'IVAN AGABA',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: Apartment2,
@@ -232,7 +232,7 @@ export const housesData = [
   {
     id: 9,
     type: 'Apartament',
-    name: 'Apartament 3',
+    name: 'BAD MAN APPARTMENT',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: Apartment3,
@@ -253,7 +253,7 @@ export const housesData = [
   {
     id: 10,
     type: 'House',
-    name: 'House 7',
+    name: 'GOODMAN APPARTMENT',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House7,
@@ -274,7 +274,7 @@ export const housesData = [
   {
     id: 11,
     type: 'House',
-    name: 'House 8',
+    name: 'GODBAD MAN HOUSE',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illoat. Repudiandae ratione impedit delectus consectetur. Aspernaturvero obcaecati placeat ab distinctio unde ipsam molestias atqueratione delectus blanditiis nemo eius dignissimos doloremque quaealiquid maiores id tempore consequatur, quod pariatur saepe.',
     image: House8,
