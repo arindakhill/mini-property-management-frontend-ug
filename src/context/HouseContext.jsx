@@ -6,10 +6,10 @@ export const HouseContext = createContext('');
 const HouseProvider = ({children}) =>{
 
     const [houses, setHouses] = useState(housesData);
-    const [country, setCountry] = useState('Select Country');
+    const [country, setCountry] = useState('');
     const [countries, setCountries] = useState([]);
-    const [price, setPrice] = useState('Select Price');
-    const [property, setProperty] = useState('Select type');
+    const [price, setPrice] = useState('');
+    const [property, setProperty] = useState('');
     const [properties, setProperties] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     
@@ -29,6 +29,16 @@ const HouseProvider = ({children}) =>{
         setProperties(uniquePropertyTypes);
     }, []);
 
+        //Clear Filters
+        const clearFilters = () => {
+            setCountry('');
+            setPrice('');
+            setProperty('');
+            // Add any other states you want to reset
+        };
+
+
+
     const searchHandler=()=>{
         setIsLoading(true);
        
@@ -38,6 +48,11 @@ const HouseProvider = ({children}) =>{
         }
         const minPrice = parseInt(price.split(' ')[0]);
         const maxPrice = parseInt(price.split('- ')[1]);
+
+
+                
+
+
 
         const filteredHouses = housesData.filter(house=> {
             const housePrice = parseInt(house.price);
@@ -80,6 +95,12 @@ const HouseProvider = ({children}) =>{
             if(house.country === country && housePrice >= minPrice && housePrice <= maxPrice && house.type === property){
                 return house;
             }
+
+       
+                
+
+
+
         })
 
         // setHouses(filteredHouses)
@@ -101,7 +122,8 @@ const HouseProvider = ({children}) =>{
             setProperty,
             properties,
             searchHandler,
-            isLoading
+            isLoading,
+            clearFilters
         }}>
             {children}
         </HouseContext.Provider>

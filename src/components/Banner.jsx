@@ -22,18 +22,18 @@ const Banner = () => {
           flexGrow='1'
           px={{ sm: "6", md: "10" }}
           py={{ sm: '8',  md: "16" }}
-          bg="pink.100"
+         /**  bg="blue.100"*/
+          bgGradient='linear(to-r, blue.100, gray.200)' 
           justify="center"
           align="left"
           borderRadius="xl"
         >
           <Heading fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}>
-            Find Real Estate That Suits You.
+            Your Dream Home Awaits.
           </Heading>
-          <Text fontSize="sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-            fugit illo? Delectus, voluptas unde quae cupiditate at amet beatae
-            totam!
+          <Text fontSize="sm" >
+          Discover a place where every detail feels like it's tailor-made for you - because it is.
+           Explore our curated listings to find a home that resonates with your lifestyle and lets you live the life you've always imagined.
           </Text>
           <Box pt="3" pb="8">
             <Button>Get Started</Button>
