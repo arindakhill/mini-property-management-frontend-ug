@@ -1,11 +1,5 @@
 import { extendTheme, theme as base, withDefaultVariant } from "@chakra-ui/react"
 
-
-
-
-
-
-
 const breakpoints = {
   sm: '320px',
   md: '500px',
@@ -33,7 +27,7 @@ export const theme = extendTheme({
   components: {
     Button: {
       defaultProps: {
-        colorScheme: 'pink', // default is gray
+        colorScheme: 'teal', // default is gray
       }
     },
     Input:{
@@ -50,7 +44,7 @@ export const theme = extendTheme({
     },
     Textarea:{
       defaultProps: {
-        focusBorderColor: 'pink.500'
+        focusBorderColor: 'pink.300'
       }
     }
   }

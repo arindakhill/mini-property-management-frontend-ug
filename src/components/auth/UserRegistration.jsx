@@ -18,10 +18,9 @@ const UserRegistration = () => {
     lastName: '',
     email: '',
     password: '',
-    isOwner: false,
-    profession: '',
-    zipcode: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    isOwner: false
+  
   });
   const toast = useToast();
 

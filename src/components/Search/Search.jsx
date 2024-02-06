@@ -1,5 +1,5 @@
 import { Button, Flex, Heading } from '@chakra-ui/react'
-import { useContext} from "react";
+import { useContext, forwardRef} from "react";
 import { HouseContext } from '../../context/HouseContext';
 
 import LocationFilter from "./LocationFilter";
@@ -9,8 +9,10 @@ import PropertyTypeFilter from "./PropertyTypeFilter";
 const Search = () => {
 
   const { searchHandler, clearFilters } = useContext(HouseContext);
+  
 
   return (
+    
     <Flex my='3' direction='column' borderRadius='md' bg='#fff' boxShadow='md' p='5'>
 
       <Heading py='2' size={{base: 'sm', md: 'md'}}>Discover Your Dream Property</Heading>
@@ -23,7 +25,8 @@ const Search = () => {
         <Button onClick={clearFilters} p={{base: 3, md: 2}} size="100%" colorScheme='red'>Clear</Button>
       </Flex>
     </Flex>
-  )
-}
+ 
+  );
+};
 
 export default Search

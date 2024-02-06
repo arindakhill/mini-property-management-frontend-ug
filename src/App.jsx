@@ -8,11 +8,13 @@ import Footer from './components/Footer'
 import HouseProvider from './context/HouseContext';
 import HouseDetails from './components/PropertyDetails/HouseDetails';
 import UserRegistration from './components/auth/UserRegistration';
+import HeaderComponent from './components/Owners/HeaderComponent';
+import OwnerDashboardComponent from './components/Owners/OwnerDashboardComponent';
 
 const App = () => {
   return (
     <HouseProvider>
-      <Container maxW='container.lg' px='6'>
+      <Container maxW='8xl' px='1'>
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -20,6 +22,7 @@ const App = () => {
             <Route path=":propertyId" element={<HouseDetails />} />
           </Route>
           <Route path="/signup" element={<UserRegistration/>}/>
+          <Route path="/owner" elememtn={<OwnerDashboardComponent/>}/>
           <Route path="*"
                 element={ <main style={{ padding: "1rem" }}>
                             <p>There's nothing here!</p>

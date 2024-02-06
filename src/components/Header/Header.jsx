@@ -9,24 +9,25 @@ const Header = () => {
 
   return (
     <chakra.header id="header" borderBottom='1px solid rgb(0,0,0,0.3)'>
-      <Flex w='100%' py='5' align='center' justify='space-between'>
+      <Flex w='100%' py='5' align='left' justify='space-between'>
         <Link to='/'>
-          <Heading fontSize='3xl' color='pink.700'>NestQuest</Heading>
+          <Heading fontSize='5xl' color='pink.700'>NestQuest</Heading>
         </Link>
         {
           isDesktop ? (
           <>
-            <ButtonGroup as='nav' variant='link' spacing='5'>
+            <ButtonGroup as='nav' variant='link' spacing='10'>
                 {
-                  ['Home', 'Features', 'About Us'].map((item)=>(
-                    <Button fontSize='16px' key={item} >{item}</Button>
+                  ['Buy', 'Rent', 'Sell', 'About Us'].map((item)=>(
+                    <Button fontSize='18px' key={item} >{item}</Button>
                     ))
                 }
             </ButtonGroup>
 
-            <HStack>
-              <Button size='sm' variant='solid'>Sign In</Button>
-              <Button size='sm' variant='outline' onClick={()=>(navigate("/signup"))}>Sign up</Button>
+            <HStack spacing ='4'>
+            <Button size='md' variant='solid' onClick={()=>(navigate("/owner"))} bg="pink.500">Owner</Button>
+              <Button size='md' variant='solid'>Sign In</Button>
+              <Button size='md' variant='outline' onClick={()=>(navigate("/signup"))}>Sign up</Button>
             </HStack>
           </>
           ) : (
