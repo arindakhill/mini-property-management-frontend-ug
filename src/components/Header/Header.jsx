@@ -18,7 +18,7 @@ const Header = () => {
           <>
             <ButtonGroup as='nav' variant='link' spacing='10'>
                 {
-                  ['Home', 'Features', 'About Us'].map((item)=>(
+                  ['Home', 'Features', 'About Us',''].map((item)=>(
                     <Button fontSize='18px' key={item} >{item}</Button>
                     ))
                 }
