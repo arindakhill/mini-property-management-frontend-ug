@@ -7,6 +7,7 @@ import PropertyDetails from './routes/PropertyDetails';
 import Footer from './components/Footer'
 import HouseProvider from './context/HouseContext';
 import HouseDetails from './components/PropertyDetails/HouseDetails';
+import UserRegistration from './components/auth/UserRegistration';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path='property-details' element={ <PropertyDetails /> } >
             <Route path=":propertyId" element={<HouseDetails />} />
           </Route>
+          <Route path="/signup" element={<UserRegistration/>}/>
           <Route path="*"
                 element={ <main style={{ padding: "1rem" }}>
                             <p>There's nothing here!</p>
