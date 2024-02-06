@@ -11,23 +11,23 @@ const Header = () => {
     <chakra.header id="header" borderBottom='1px solid rgb(0,0,0,0.3)'>
       <Flex w='100%' py='5' align='left' justify='space-between'>
         <Link to='/'>
-          <Heading fontSize='5xl' color='pink.700'>NestQuest</Heading>
+          <Heading fontSize='3xl' color='pink.700'>NestQuest</Heading>
         </Link>
         {
           isDesktop ? (
           <>
             <ButtonGroup as='nav' variant='link' spacing='10'>
                 {
-                  ['Buy', 'Rent', 'Sell', 'About Us'].map((item)=>(
+                  ['Home', 'Features', 'About Us'].map((item)=>(
                     <Button fontSize='18px' key={item} >{item}</Button>
                     ))
                 }
             </ButtonGroup>
 
-            <HStack spacing ='4'>
-            <Button size='md' variant='solid' onClick={()=>(navigate("/owner"))} bg="pink.500">Owner</Button>
-              <Button size='md' variant='solid'>Sign In</Button>
-              <Button size='md' variant='outline' onClick={()=>(navigate("/signup"))}>Sign up</Button>
+            <HStack>
+            <Link to='/owner'><Button size='sm' variant='solid'>Owner</Button></Link>
+              <Button size='sm' variant='solid'>Contact</Button>
+              <Button size='sm' variant='outline'>Sign up</Button>
             </HStack>
           </>
           ) : (
