@@ -10,9 +10,9 @@ import HouseDetails from './components/PropertyDetails/HouseDetails';
 import UserRegistration from './components/auth/UserRegistration';
 import HeaderComponent from './components/Owners/HeaderComponent';
 import OwnerDashboardComponent from './components/Owners/OwnerDashboardComponent';
-import Owners from '.components/Owners/Owners';
+import Owners from './components/Owners/Owners';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import NewOwner from './components/Owner/NewOwner';
+import NewOwner from './components/Owners/NewOwner';
 import Form from './components/PropertyDetails/Form';
 
 const App = () => {
