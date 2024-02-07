@@ -14,9 +14,14 @@ import Owners from './components/Owners/Owners';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import NewOwner from './components/Owners/NewOwner';
 import Form from './components/PropertyDetails/Form';
+import { AuthProvider } from './context/AuthContext';
+import SignInModal from './components/auth/SignInModal';
+import ManageAccount from './components/auth/ManageAccount';
+import OfferHistory from './components/offers/OfferHistory';
 
 const App = () => {
   return (
+    <AuthProvider>
     <HouseProvider>
       <Container maxW='8xl' px='1'>
         <Header />
@@ -26,7 +31,10 @@ const App = () => {
             <Route path=":propertyId" element={<HouseDetails />} />
           </Route>
           <Route path="/signup" element={<UserRegistration/>}/>
+          <Route path="/signin" element={<SignInModal/>}/>
+          <Route path="/manage-account" element={<ManageAccount/>}/>
           <Route path="/owner" element={<OwnerDashboardComponent/>}/>
+          <Route path="/offer-history" element={<OfferHistory />} />
           <Route path="*"
                 element={ <main style={{ padding: "1rem" }}>
                             <p>There's nothing here!</p>
@@ -37,6 +45,7 @@ const App = () => {
       </Container>
       <Footer />
     </HouseProvider>
+    </AuthProvider>
   )
 }
 

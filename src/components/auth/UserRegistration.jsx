@@ -1,53 +1,119 @@
+// src/components/auth/UserRegistration.jsx
+
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 import {
-  VStack,
-  Input,
-  Checkbox,
-  Select,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   Button,
   FormControl,
   FormLabel,
-  Text,
-  useToast
+  Input,
+  Checkbox,
+  FormErrorMessage,
+  useToast,
 } from '@chakra-ui/react';
 
-const UserRegistration = () => {
+const UserRegistration = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    firstname:'',
+    lastname:'',
     email: '',
+    phone:'',
     password: '',
-    phoneNumber: '',
-    isOwner: false
-  
+    confirmPassword: '',
+    isOwner: false,
   });
+  const [formErrors, setFormErrors] = useState({});
+  const { signUp } = useAuth();
   const toast = useToast();
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value
-    });
+    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
+  };
+
+  const validateForm = () => {
+    let errors = {};
+    let formIsValid = true;
+
+    //first name and last name  validation
+    if (!formData.firstname ) {
+        formIsValid = false;
+        errors.firstname = "First name is required";
+      }
+
+      if (!formData.lastname ) {
+        formIsValid = false;
+        errors.lastname = "Last name is required";
+      }
+
+
+
+
+
+    // Email validation
+    if (!formData.email) {
+      formIsValid = false;
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      formIsValid = false;
+      errors.email = "Email is invalid";
+    }
+
+  
+   // Phone validation
+if (!formData.phone) {
+    formIsValid = false;
+    errors.phone = "Phone number is required";
+  } else if (!/^\d{10}$/.test(formData.phone)) {
+    formIsValid = false;
+    errors.phone = "Phone number is invalid";
+  }
+
+    // Password validation
+    if (!formData.password) {
+      formIsValid = false;
+      errors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      formIsValid = false;
+      errors.password = "Password must be at least 6 characters";
+    }
+
+    // Confirm Password validation
+    if (formData.password !== formData.confirmPassword) {
+      formIsValid = false;
+      errors.confirmPassword = "Passwords do not match";
+    }
+
+    setFormErrors(errors);
+    return formIsValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     try {
-      // Adjust the endpoint URL to your API for user registration
-      const response = await axios.post('/api/register', formData);
+      await signUp({ ...formData });
       toast({
         title: 'Registration Successful',
-        description: response.data.message,
+        description: "You're now signed in.",
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
+      onClose(); // Close the modal on success
     } catch (error) {
       toast({
         title: 'Registration Failed',
-        description: error.response.data.message,
+        description: error.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -56,59 +122,64 @@ const UserRegistration = () => {
   };
 
   return (
-    <VStack
-      as="form"
-      onSubmit={handleSubmit}
-      spacing={4}
-      align="stretch"
-      p={8}
-      boxShadow="xl"
-      borderRadius="md"
-      background="white"
-    >
-      <FormControl isRequired>
-        <FormLabel>First Name</FormLabel>
-        <Input type="text" name="firstName" onChange={handleInputChange} />
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel>Last Name</FormLabel>
-        <Input type="text" name="lastName" onChange={handleInputChange} />
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel>Email</FormLabel>
-        <Input type="email" name="email" onChange={handleInputChange} />
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel>Password</FormLabel>
-        <Input type="password" name="password" onChange={handleInputChange} />
-      </FormControl>
-      <Checkbox name="isOwner" onChange={handleInputChange} isChecked={formData.isOwner}>
-        I am a landlord or industry professional
-      </Checkbox>
-      {formData.isOwner && (
-        <>
-          <FormControl isRequired>
-            <FormLabel>Professional Type</FormLabel>
-            <Select name="profession" onChange={handleInputChange}>
-              <option value="">Select your category</option>
-              <option value="real_estate_agent">Real Estate Agent</option>
-              <option value="property_manager">Property Manager</option>
-            </Select>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Create a new account</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+
+        <FormControl isInvalid={formErrors.firstname}>
+            <FormLabel>First Name</FormLabel>
+            <Input name="firstname" value={formData.firstname} onChange={handleChange} placeholder="First Name" />
+            <FormErrorMessage>{formErrors.firstname}</FormErrorMessage>
           </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Zip/Postal</FormLabel>
-            <Input type="text" name="zipcode" onChange={handleInputChange} />
+
+          <FormControl isInvalid={formErrors.lastname}>
+            <FormLabel>Last Name</FormLabel>
+            <Input name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Last Name" />
+            <FormErrorMessage>{formErrors.lastname}</FormErrorMessage>
           </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Phone Number</FormLabel>
-            <Input type="tel" name="phoneNumber" onChange={handleInputChange} />
+
+
+
+
+
+          <FormControl isInvalid={formErrors.email}>
+            <FormLabel>Email</FormLabel>
+            <Input name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+            <FormErrorMessage>{formErrors.email}</FormErrorMessage>
           </FormControl>
-        </>
-      )}
-      <Button type="submit" colorScheme="pink" size="lg">
-        Continue
-      </Button>
-    </VStack>
+
+
+          <FormControl isInvalid={formErrors.phone}>
+            <FormLabel>Phone</FormLabel>
+            <Input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone number" />
+            <FormErrorMessage>{formErrors.phone}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={formErrors.password} mt={4}>
+            <FormLabel>Password</FormLabel>
+            <Input name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Password" />
+            <FormErrorMessage>{formErrors.password}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={formErrors.confirmPassword} mt={4}>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" />
+            <FormErrorMessage>{formErrors.confirmPassword}</FormErrorMessage>
+          </FormControl>
+
+          <Checkbox name="isOwner" isChecked={formData.isOwner} onChange={handleChange} mt={4}>
+            I am a Property Owner
+          </Checkbox>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" onClick={handleSubmit}>Sign Up</Button>
+          <Button onClick={onClose} ml={3}>Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 
