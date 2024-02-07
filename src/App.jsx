@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Container } from '@chakra-ui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Header from './components/Header/Header';
 import Home from './routes/Home';
@@ -30,6 +31,14 @@ import UpdateProperty from './components/Owners/EditProperty';
 import PropertyOffers from './components/Owners/PropertyOffers';
 import UpdateOffer from './components/Owners/UpdateOffer';
 import Layout from './Layout';
+import Form from './components/PropertyDetails/Form';
+import OwnerDashboardComponent from './components/Owner/OwnerDashboardComponent';
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+
+import NewOwner from './components/Owner/NewOwner';
+import Owners from './components/Owner/Owners';
 
 
 const App = () => {
@@ -40,6 +49,11 @@ const App = () => {
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/owner' element={<OwnerDashboardComponent/>} />
+          <Route path='/new-owner' element={<NewOwner/>} />
+          <Route path='/owners' element={<Owners/>} />
+
+        
           <Route path='property-details' element={ <PropertyDetails /> } >
             <Route path=":propertyId" element={<HouseDetails />} />
           </Route>
