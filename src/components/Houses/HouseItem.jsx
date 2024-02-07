@@ -65,10 +65,7 @@ const HouseItem = ({ house }) => {
                 <Text fontSize="12px">{house.bathrooms}</Text>
             </HStack>
 
-            <HStack>
-                <BiArea style={{ color: "#D53F8C" }} />
-                <Text fontSize="12px">{house.surface}</Text>
-            </HStack>
+           
             </HStack>
 
         </VStack>

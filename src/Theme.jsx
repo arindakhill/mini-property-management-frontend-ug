@@ -20,7 +20,8 @@ export const theme = extendTheme({
            /** bg: 'gray.50'*/ 
            /**bgGradient: 'linear(to-r, teal.100, blue.200)' */ 
            /*bgGradient: 'linear(to-r, gray.300, blueGray.500, gray.500)'*/
-           bgGradient: 'linear(to-r, gray.100, gray.300)'
+          /**bgGradient: 'linear(to-r, gray.100, gray.400)' */ 
+          bgGradient:'linear(to-r, gray.200,blue.100 )'
         }
     }
   },
