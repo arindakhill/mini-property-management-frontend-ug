@@ -58,7 +58,7 @@ const Header = () => {
 ) : (
           <HStack>
             <Button onClick={onSignInOpen}>Sign In</Button>
-            <Button onClick={onSignUpOpen}>Sign Up</Button>
+            <Button onClick={onSignUpOpen} bg='pink.700'>Sign Up</Button>
           </HStack>
         )}
 

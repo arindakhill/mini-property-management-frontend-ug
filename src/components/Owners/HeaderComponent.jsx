@@ -17,19 +17,25 @@ export default function HeaderComponent(){
           </button>
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav mr-auto">
+             
+              <li className="nav-item">
+                <Link className="nav-link" to="/owners">Owners</Link> 
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/add-property">Add property</Link> 
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/properties">Properties</Link> 
+              </li>
               <li className="nav-item active"> 
-                 <Link className="nav-link" to="/new-owner">New owner</Link>
+                 <Link className="nav-link" to="/offers">Offers</Link>
               </li>
 
-              <li className="nav-item">
-                <Link className="nav-link" to="/owners">Owner List</Link> 
-              </li>
             </ul>
+  
         </div>
         
        
-       
-  
         </nav>
         </div>    
       </header>

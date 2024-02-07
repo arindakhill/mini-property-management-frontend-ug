@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = (userData) => {
     let users = JSON.parse(localStorage.getItem('users')) || [];
-    if (users.some((u) => u.email === userData.email && u.isOwner === userData.isOwner)) {
+    if (users.some((u) => u.email === userData.email )) {
       throw new Error(`User with email ${userData.email} already exists.`);
     }
     users.push(userData);
