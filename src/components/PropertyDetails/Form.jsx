@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useToast,
   VStack,
@@ -19,6 +19,7 @@ import {
   Textarea,
   Select
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const Form = ({ searchedHouse, user }) => {
 // Construct the default message only if user and searchedHouse are available
@@ -34,19 +35,64 @@ const defaultMessage = user && searchedHouse
   const [offerType, setOfferType] = useState('');
   const toast = useToast();
 
-  
+   // New state to track if the user can make an offer
+   const [canMakeOffer, setCanMakeOffer] = useState(true);
+   const navigate = useNavigate();
+
+
+   useEffect(() => {
+    const checkIfCanMakeOffer = () => {
+      const offers = JSON.parse(localStorage.getItem('offers')) || [];
+      const existingOffer = offers.find(o => o.propertyId === searchedHouse.id && o.userId === user.id && (o.status === "PENDING" || o.status === "ACCEPTED"));
+      const propertyIsEligible =  searchedHouse.status !== "CONTINGENT";
+
+      setCanMakeOffer(!existingOffer && propertyIsEligible);
+    };
+
+    if (user && searchedHouse) {
+      checkIfCanMakeOffer();
+    }
+  }, [user, searchedHouse]);
+   
 
 
   const handlePlaceOffer = () => {
-    onOpen();
+
+if(!user){
+  toast({
+    title: 'You must be signed in to place an offer.',
+    status: 'warning',
+    duration: 5000,
+    isClosable: true,
+  });
+  navigate('/signin');
+}
+
+
+
+
+    if(canMakeOffer){
+      onOpen();
+    }else{
+      toast({
+        title: 'Cannot Place Offer',
+        description: `You cannot place an offer on this property at this moment.`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+    });
+  }
   };
 
 
 // Add the placeOffer function inside the Form component
 const placeOffer = (offerDetails) => {
     const offers = JSON.parse(localStorage.getItem('offers')) || [];
-   // offerDetails.id = offers.length + 1; // Simple way to generate a unique ID for the offer
+    offerDetails.id = offers.length + 1; // Simple way to generate a unique ID for the offer
+   offerDetails.offerStatus = "PENDING";
+   offerDetails.propertyStatus="PENDING";
     offers.push(offerDetails);
+
     localStorage.setItem('offers', JSON.stringify(offers));
   };
 
@@ -60,6 +106,8 @@ const placeOffer = (offerDetails) => {
         userId: user.id,
         offerAmount: offer,
         offerType,
+        offerStatus: 'PENDING',
+        propertyStatus: searchedHouse.status,
         date: new Date().toISOString(),
       };
     // Save the offer details
