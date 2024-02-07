@@ -24,10 +24,10 @@ const UserRegistration = ({ isOpen, onClose }) => {
     firstname:'',
     lastname:'',
     email: '',
-    phone:'',
+    phoneNumber:'',
     password: '',
     confirmPassword: '',
-    isOwner: false,
+    role: 'CUSTOMER',
   });
   const [formErrors, setFormErrors] = useState({});
   const { signUp } = useAuth();
@@ -35,7 +35,14 @@ const UserRegistration = ({ isOpen, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
+    if (name === "isOwner") {
+      setFormData({
+        ...formData,
+        role: checked ? 'OWNER' : 'CUSTOMER', // Assign role based on checkbox
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const validateForm = () => {
@@ -67,13 +74,13 @@ const UserRegistration = ({ isOpen, onClose }) => {
     }
 
   
-   // Phone validation
-if (!formData.phone) {
+   // phoneNumber validation
+if (!formData.phoneNumber) {
     formIsValid = false;
-    errors.phone = "Phone number is required";
-  } else if (!/^\d{10}$/.test(formData.phone)) {
+    errors.phoneNumber = "Phone number is required";
+  } else if (!/^\d{10}$/.test(formData.phoneNumber)) {
     formIsValid = false;
-    errors.phone = "Phone number is invalid";
+    errors.phoneNumber = "Phone number is invalid";
   }
 
     // Password validation
@@ -152,10 +159,10 @@ if (!formData.phone) {
           </FormControl>
 
 
-          <FormControl isInvalid={formErrors.phone}>
-            <FormLabel>Phone</FormLabel>
-            <Input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone number" />
-            <FormErrorMessage>{formErrors.phone}</FormErrorMessage>
+          <FormControl isInvalid={formErrors.phoneNumber}>
+            <FormLabel>phone Number</FormLabel>
+            <Input name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone number" />
+            <FormErrorMessage>{formErrors.phoneNumber}</FormErrorMessage>
           </FormControl>
 
           <FormControl isInvalid={formErrors.password} mt={4}>
