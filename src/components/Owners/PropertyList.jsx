@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import $ from 'jquery'
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 import 'datatables.net-bs5'
 import { getPropertiesApi } from "../../Api/Api";
+import  {jwtDecode} from "jwt-decode";
 export default function PropertyList(){
-    
+    const token = sessionStorage.getItem('token');
+    console.log(token);
+  
     const navigate=useNavigate();
+    
+  
+
     const [selectedProperty, setSelectedProperty] = useState([]);
     const [propertyList, setpropertyList] = useState([]);
     const[deletMsg,setDeleteMsg]=useState(null);
@@ -62,10 +68,17 @@ export default function PropertyList(){
         const dataTable = $('#tblProperties').DataTable(); 
         getAllProperties(); 
       } );
+
+
+   
    
       const getAllProperties=()=>{
+
+
+
         getPropertiesApi().then(response=>{
             propertyList(response.data);  
+            console.log(propertyList)
         })
         
         .catch(error=>console.log(error))
