@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
+import { useEffect } from "react";
+import $ from 'jquery'
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+import 'datatables.net-bs5'
 export default function Owners(){
 
     const navigate=useNavigate();
@@ -17,16 +19,15 @@ export default function Owners(){
           status: "active"
         },
         {
-            id:"2",
+          id:"2",
           firstName: "Emily",
           lastName: "Johnson",
           email: "emily.j@email.com",
           username: "emily.johnson",
-          password: "SecureP@ss!",
           status: "pending"
         },
         {
-            id:"3",
+          id:"3",
           firstName: "Michael",
           lastName: "Davis",
           email: "michael.davis@email.com",
@@ -51,23 +52,23 @@ export default function Owners(){
         }
       ];
 
-     /* useEffect(
-        ()=>showAllUsers(),[]
-      )
+     useEffect(()=>{
+        ()=>showAllOwners(),[]
+        const dataTable = $('#tblowners').DataTable();  
+     });
       
-        function showAllUsers(){
+      /*function showAllOwners(){
               getAllOwnersApi()
             .then(
               response=>{
-                setActivity(response.data)
-                console.log("data-->"+response.data)
+                setownerArrist(response.data)
               }
               )
               .catch(error=>console.log(error))
       
         }
       
-        function deleteUser(id){
+          function deleteUser(id){
       
           deleteUserApi(id)
                  .then(()=>{
@@ -104,10 +105,10 @@ export default function Owners(){
       
         <div className="container"> 
 
-        <h3>List owners</h3><hr />
+       <h1 style={{ textAlign: 'center', fontSize:'25px' }}>List of  owners</h1><hr />
         {deletMsg && <div className="alert alert-warning">{deletMsg}</div>}
       <div class="table-responsive">
-       <table className="table">
+       <table className="table" id="tblowners">
      
        <thead>
          <tr>
@@ -117,6 +118,9 @@ export default function Owners(){
            <th scope="col">Email</th>
            <th scope="col">Username</th>
            <th scope="col">Status</th>
+           <th scope="col"></th>
+           <th scope="col"></th>
+           <th scope="col"></th>
          </tr>
        </thead>
        <tbody>

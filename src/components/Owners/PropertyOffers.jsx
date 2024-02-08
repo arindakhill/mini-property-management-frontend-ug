@@ -1,7 +1,9 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import $ from 'jquery'
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+import 'datatables.net-bs5'
 export default function PropertyOffers(){
     const navigate=useNavigate();
     const [selectedProperty, setSelectedProperty] = useState([]);
@@ -54,6 +56,12 @@ export default function PropertyOffers(){
         
     ];
 
+      useEffect(()=>{
+
+         $('#tbloffers').DataTable();
+
+      });
+
    
     const   goToPropertyUpdateOffer=(oId)=>{
         const selectedOffer= propertyPayment.find((offer)=>offer.id===oId);
@@ -69,10 +77,10 @@ export default function PropertyOffers(){
       
     <div className="container"> 
 
-            <h3>List of offers</h3><hr />
+            <h2 style={{ textAlign: 'center', fontSize:'25px' }}>List of offers</h2><hr />
         
             <div class="table-responsive">
-            <table className="table">
+            <table className="table" id="tbloffers">
             
             <thead>
                 <tr>
@@ -85,6 +93,7 @@ export default function PropertyOffers(){
                 <th scope="col">Amount</th>
                 <th scope="col">OrderDate</th>
                 <th scope="col">Status</th>
+                <th></th>
                 </tr>
             </thead>
             <tbody>
