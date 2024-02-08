@@ -102,13 +102,19 @@ if (!formData.phoneNumber) {
     return formIsValid;
   };
 
+// decide on the endpoint to use based on the role
+let endpoint = '';
+if(formData.role === 'OWNER'){
+  endpoint = 'register-owner'}else{
+  endpoint = 'register-customer'}
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
     try {
-      await signUp({ ...formData });
+      await signUp({ ...formData },endpoint);
       toast({
         title: 'Registration Successful',
         description: "You're now signed in.",
