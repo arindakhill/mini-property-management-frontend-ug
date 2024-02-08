@@ -31,14 +31,8 @@ import UpdateProperty from './components/Owners/EditProperty';
 import PropertyOffers from './components/Owners/PropertyOffers';
 import UpdateOffer from './components/Owners/UpdateOffer';
 import Layout from './Layout';
-
-
+import { getPropertiesApi } from './Api/Api';
 import 'bootstrap/dist/css/bootstrap.min.css'
-
-
-
-
-
 const App = () => {
   return (
     <AuthProvider>

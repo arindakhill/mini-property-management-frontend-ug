@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
+import $ from 'jquery'
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+import 'datatables.net-bs5'
+import { getPropertiesApi } from "../../Api/Api";
 export default function PropertyList(){
     
     const navigate=useNavigate();
     const [selectedProperty, setSelectedProperty] = useState([]);
+    const [propertyList, setpropertyList] = useState([]);
     const[deletMsg,setDeleteMsg]=useState(null);
     const properties = [
         {
@@ -55,8 +58,19 @@ export default function PropertyList(){
         },
        
     ];
-    
-
+      useEffect(()=>{
+        const dataTable = $('#tblProperties').DataTable(); 
+        getAllProperties(); 
+      } );
+   
+      const getAllProperties=()=>{
+        getPropertiesApi().then(response=>{
+            propertyList(response.data);  
+        })
+        
+        .catch(error=>console.log(error))
+    }
+  
        const   goToPropertyDetailPage=(propId)=>{
         const selectedProp= properties.find((prop)=>prop.id===propId);
          setSelectedProperty(selectedProp)
@@ -79,31 +93,32 @@ export default function PropertyList(){
       
     <div className="container"> 
 
-            <h3 >List of Properties</h3><hr />
+            <h3 style={{ textAlign: 'center', fontSize:'25px' }} >List of  Properties</h3><hr />
         
             <div class="table-responsive ">
-            <table className="table">
+            <table className="table" id="tblProperties">
             
             <thead>
                 <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Owner Firstname</th>
                 <th scope="col">Owner Lastname</th>
-                <th scope="col">Category</th>
-                <th scope="col">Type</th>
+                <th scope="col">ListingType</th>
+                <th scope="col">PropertyType</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 {
-                properties.map(
+                propertyList.map(
                 row=>(
                     <tr key={row.id}>
                     <td>{row.id}</td>
-                    <td></td>
-                    <td></td>
-                    <td>{row.category}</td>
-                    <td>{row.type}</td>
-                 
+                    <td>{row.firstname}</td>
+                    <td>{row.lastname}</td>
+                    <td>{row.listing_type}</td>
+                    <td>{row.property_type}</td>
                     <td><button type="button" className="btn btn-success btn-flat"onClick={()=>goToPropertyDetailPage(row.id)} >Details</button></td>   
                     <td><button type="button" className="btn btn-warning btn-flat"onClick={()=>goToPropertyEditPage(row.id)} >Update</button></td>         
                     </tr>
