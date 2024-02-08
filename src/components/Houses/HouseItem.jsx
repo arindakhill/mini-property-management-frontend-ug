@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { BiBed, BiBath, BiArea } from "react-icons/bi";
 import { StarIcon } from "@chakra-ui/icons"; // Import the Star icon for the favorites button
+import { Link } from 'react-router-dom';
 
 
 const HouseItem = ({ house ,user }) => {
@@ -77,7 +78,9 @@ const HouseItem = ({ house ,user }) => {
 
 
         <Stack justify='center' width="300px" bg="white" boxShadow="xl" borderRadius="xl">
+        <Link to={`/property-details/${house.id}`} key={house.id}>
         <Image src={house.imageLg} h='170' alt='houses' />
+        </Link>
 
         <VStack p='4' align='left'>
             <Text mt="-1" fontWeight="extrabold" fontSize="18px" color="pink.500">
