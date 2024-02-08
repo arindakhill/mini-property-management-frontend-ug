@@ -22,34 +22,52 @@ export const AuthProvider = ({ children }) => {
 
 
 
-  const signIn =async ({ email, password }) => {
-    try{
-    const response = await axios.post(`${apirurl}/authenticate`, {
-      email,
-      password,
-    }, {
-      headers: {
-        Authorizationh: `Bearer ${sessionStorage.getItem('token')}`,
-      },
+  const signIn = async ({ email, password }) => {
+    try {
+      // Authenticate the user and get the access token
+      const response = await axios.post(`${apirurl}/authenticate`, { email, password });
+      const { access_token } = response.data;
+      sessionStorage.setItem('token', access_token);
+  
+      // Decode the token to get user information
+      const decodedToken = jwtDecode(access_token);
+  
+      // Wait for 2 seconds before making the next call
+     // await new Promise(resolve => setTimeout(resolve, 1000));
+  
+      // Fetch additional user details using the access token
+      const userDetailsResponse = await axios.get(`http://localhost:8080/api/v1/users/${decodedToken.sub}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+  
+      // Set the user state with information from the token and additional user details
+      setUser({
+        ...decodedToken,
+        ...userDetailsResponse.data, // This contains the additional user details
+      });
+  
+    } catch (error) {
+      // If there's an error in the above block, remove any stored token and reset user state
+      sessionStorage.removeItem('token');
+      setUser(null);
+  
+      // Re-throw the error to be caught by the calling code, which might want to display the error message to the user
+      throw error;
     }
-    
-    
-    );
-    const { access_token } = response.data
-    sessionStorage.setItem('token', access_token);
-    const decodedToken = jwtDecode(access_token);
-    setUser(decodedToken);
-    console.log(decodedToken);
-  }catch(error){
-    throw new Error('Invalid email or password');
-  }
   };
+  
+  
 
   const signUp = async (userData, endpoint) => {
    try{
     const response = await axios.post(`${apirurl}/${endpoint}`, userData);
    const { access_token } = response.data
    sessionStorage.setItem('token', access_token); 
+
+
+
     const decodedToken = jwtDecode(access_token);
     setUser(decodedToken);
   }catch(error){

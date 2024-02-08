@@ -32,9 +32,9 @@ const HouseList = () => {
   return (
     <Grid my='3' rowGap='4' gridTemplateColumns='repeat(auto-fit, minmax(300px, 1fr))'>
       {houses.map(item => (
-         <Link to={`/property-details/${item.id}`} key={item.id}>
+         
         <HouseItem key={item.id} house={item} user={user} />
-        </Link>
+      
       ))}
     </Grid>
   );
