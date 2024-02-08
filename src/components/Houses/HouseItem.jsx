@@ -8,11 +8,54 @@ import {
   Text,
   Flex,
   Box,
-  useStyleConfig
+  useStyleConfig,
+  Button,
+  useToast
+  
 } from "@chakra-ui/react";
 import { BiBed, BiBath, BiArea } from "react-icons/bi";
+import { StarIcon } from "@chakra-ui/icons"; // Import the Star icon for the favorites button
 
-const HouseItem = ({ house }) => {
+
+const HouseItem = ({ house ,user }) => {
+  const toast = useToast();
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+  const userFavorites = favorites[user?.id] || [];
+  const isFavorite = userFavorites.includes(house.id);
+
+  const addToFavorites = (houseId) => {
+    if (!user) {
+      toast({
+        title: 'You must be signed in to add favorites.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (isFavorite) {
+      toast({
+        title: 'Property already in favorites.',
+        status: 'info',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+
+    userFavorites.push(houseId);
+    favorites[user.id] = userFavorites;
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    toast({
+      title: 'Added to Favorites',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+  
 
   const styles = useStyleConfig("HouseItem");
 
@@ -64,6 +107,13 @@ const HouseItem = ({ house }) => {
                 <BiBath style={{ color: "#D53F8C" }} />
                 <Text fontSize="12px">{house.bathrooms}</Text>
             </HStack>
+
+            <Button leftIcon={isFavorite ? <StarIcon /> : <StarIcon />} 
+                colorScheme="yellow" size="sm" 
+                onClick={() => addToFavorites(house.id)}
+                isDisabled={isFavorite}>
+          {isFavorite ? 'Favorited' : 'Add to Favorites'}
+        </Button>
 
            
             </HStack>

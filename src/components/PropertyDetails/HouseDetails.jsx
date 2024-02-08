@@ -1,19 +1,29 @@
 import { Stack, VStack, Heading, Text, Box, HStack, Image, Input, Textarea, Button } from "@chakra-ui/react"
 import { BiBed, BiBath, BiArea } from "react-icons/bi";
 
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {useAuth } from '../../context/AuthContext';
 
 import { HouseContext } from "../../context/HouseContext";
 import Form from "./Form";
+import { StarIcon } from "@chakra-ui/icons"; // Import the Star icon for the favorites button
 
 const HouseDetails = () => {
 
   const {propertyId} = useParams();
   const { houses } = useContext(HouseContext);
   const {user} = useAuth();
-  const searchedHouse = houses.find(house=> house.id== propertyId)
+
+  const searchedHouse = houses.find(house=> house.id== propertyId);
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -46,6 +56,9 @@ const HouseDetails = () => {
                 <BiBath style={{ color: "#D53F8C" }} />
                 <Text fontSize="14px">{searchedHouse.bathrooms} Bathrooms</Text>
             </HStack>
+
+
+
 
           
           </Stack>
