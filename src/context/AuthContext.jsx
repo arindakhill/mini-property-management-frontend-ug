@@ -2,9 +2,11 @@
 import { useContext, createContext, useState } from "react";
 import  {jwtDecode} from "jwt-decode";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 const apirurl = 'http://localhost:8080/api/v1/auth';
+
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
@@ -69,7 +71,23 @@ export const AuthProvider = ({ children }) => {
 
 
     const decodedToken = jwtDecode(access_token);
-    setUser(decodedToken);
+
+
+ // Fetch additional user details using the access token
+ const userDetailsResponse = await axios.get(`http://localhost:8080/api/v1/users/${decodedToken.sub}`, {
+  headers: {
+    Authorization: `Bearer ${access_token}`,
+  },
+});
+
+// Set the user state with information from the token and additional user details
+setUser({
+  ...decodedToken,
+  ...userDetailsResponse.data, // This contains the additional user details
+});
+
+
+    
   }catch(error){
     throw new Error('Sign up failed');
   }
@@ -84,6 +102,8 @@ export const AuthProvider = ({ children }) => {
     });
     setUser(null);
     sessionStorage.removeItem('token');
+    //const navigate = useNavigate();
+    //navigate('/signin');
   }catch(error){
     throw new Error('Sign out failed',error.message);
   }

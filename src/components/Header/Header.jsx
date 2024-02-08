@@ -8,7 +8,7 @@ import UserRegistration from '../auth/UserRegistration'; // Import UserRegistrat
 import { useAuth } from '../../context/AuthContext'; // Import useAuth hook
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
+import SignOutButton from '../auth/SignOutButton';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ const shouldShowManageAccountButton = user && location.pathname === '/manage-acc
               <MenuList>
                 <MenuItem onClick={() => navigate('/manage-account')}>Manage Account</MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={signOut} _hover={{bg:'red.500'}}>Sign Out</MenuItem>
+                <SignOutButton/>
               </MenuList>
             </Menu>
          
