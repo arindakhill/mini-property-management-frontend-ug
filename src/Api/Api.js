@@ -13,3 +13,4 @@ export const getPropertiesApi=()=>API.get('/properties');
 export const savePostApi=(post)=>API.post('/posts',post);
 export const updatePostApi=(post,id)=>API.put(`/posts/${id}`,post);
 export const  getCommetsByPost=(id)=>API.get(`/comments/post/${id}`);*/
+
