@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Container } from '@chakra-ui/react'
 
+
 import Header from './components/Header/Header';
 import Home from './routes/Home';
 import PropertyDetails from './routes/PropertyDetails';
@@ -30,8 +31,8 @@ import UpdateProperty from './components/Owners/EditProperty';
 import PropertyOffers from './components/Owners/PropertyOffers';
 import UpdateOffer from './components/Owners/UpdateOffer';
 import Layout from './Layout';
-
-
+import { getPropertiesApi } from './Api/Api';
+import 'bootstrap/dist/css/bootstrap.min.css'
 const App = () => {
   return (
     <AuthProvider>
@@ -40,6 +41,10 @@ const App = () => {
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/owner' element={<OwnerDashboardComponent/>} />
+          <Route path='/owners' element={<Owners/>} />
+
+        
           <Route path='property-details' element={ <PropertyDetails /> } >
             <Route path=":propertyId" element={<HouseDetails />} />
           </Route>

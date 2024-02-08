@@ -58,8 +58,10 @@ export default function UpdateProperty(){
                     <div className="form-group col-sm-6">
                     <label>Type:</label>
                             <select className="form-control" name="category">
-                                <option>Apartment</option>
-                                <option>Condominium</option>
+                                <option>APARTMENT</option>
+                                <option>CONDO</option>
+                                <option>HOUSE </option>
+                                <option>MOBILE </option>
                             </select>
                     </div>
                 </div>
