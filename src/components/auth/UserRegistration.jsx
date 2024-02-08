@@ -87,7 +87,7 @@ if (!formData.phoneNumber) {
     if (!formData.password) {
       formIsValid = false;
       errors.password = "Password is required";
-    } else if (formData.password.length < 6) {
+    } else if (formData.password.length < 4) {
       formIsValid = false;
       errors.password = "Password must be at least 6 characters";
     }
