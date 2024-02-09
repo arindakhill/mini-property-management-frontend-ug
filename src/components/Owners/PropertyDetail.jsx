@@ -20,8 +20,10 @@ export default function PropertyDetail(){
 
           <form>
             <div className="card card mx-auto mb-3">
+
             <div className="card-body">
-               <h1 className="mx-auto">Proprty Details page</h1><hr/>
+            <h1 className="mx-auto" style={{ textAlign:'center' }} >Proprty Details page</h1><hr/>
+              <div style={{  fontSize:'15px',marginLeft: '250px' }}>
 
                     <p><strong>ID:</strong> {prop.id}</p>
                     <p><strong>Name:</strong> {prop.name}</p>
@@ -29,7 +31,7 @@ export default function PropertyDetail(){
                     <p><strong>Price:</strong> {prop.price}</p>
                     <p><strong>Staus:</strong> {prop.status}</p>
                     <p><strong>Listing type:</strong> {prop.listingType}</p>
-                    <p><strong>Proprty type:</strong> {prop.state}</p>
+                    <p><strong>Property type:</strong> {prop.state}</p>
                     <p><strong>Number of bathroms:</strong> {prop.bathRooms}</p>
                     <p><strong>Number of bedrooms:</strong> {prop.bedRooms}</p>
                     <p><strong>Address line1:</strong> {prop.address.line1}</p>
@@ -38,9 +40,9 @@ export default function PropertyDetail(){
                     <p><strong>Postal code:</strong> {prop.address.postalCode}</p>
                     <p><strong>State:</strong> {prop.address.state}</p>
                     <p><strong>Country:</strong> {prop.address.country}</p>
-                
-            <div className="form-group d-flex">
-            <div className='me-2'>
+                </div>
+            <div className="form-group d-flex" >
+            <div className='me-2' >
                 <button type="submit" className="btn btn-success btn-flat" onClick={backToList} >  Back to list </button>
             </div>
             </div>

@@ -18,19 +18,18 @@ export default function PropertyOffers(){
      },[]);
 
     
-     const getAllProperiesOffers = () => {
-      return axios.get(`http://localhost:8080/api/v1/properties/offers-by-owner`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        const propertyData = response.data;
-        setOffer(propertyData);
-      })
-      .catch(error => {
-        throw error;
-      });
+     const getAllProperiesOffers = async () => {
+      try {
+         const response = await axios.get(`http://localhost:8080/api/v1/properties/offers-by-owner`, {
+           headers: {
+             Authorization: `Bearer ${token}`,
+           },
+         });
+         const propertyData = response.data;
+         setOffer(propertyData);
+       } catch (error) {
+         throw error;
+       }
     };
 
    

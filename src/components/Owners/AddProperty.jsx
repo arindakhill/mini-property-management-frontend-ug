@@ -17,36 +17,17 @@ export default function AddProperty(){
     const saveProperty = (event) => {
         event.preventDefault();
       
-        /*const type = propertyFormRef.current.type.value;
-        const category = propertyFormRef.current.category.value;
-        const country = propertyFormRef.current.country.value;
-        const address1 = propertyFormRef.current.address1.value;
-        const address2 = propertyFormRef.current.address2.value;
-        const state = propertyFormRef.current.state.value;
-        const city = propertyFormRef.current.city.value;
-        const pcode = propertyFormRef.current.postalcode.value;
-        const price = propertyFormRef.current.price.value;
-        const noofbedrooms = propertyFormRef.current.nofobedrooms.value;
-        const noofbathrooms = propertyFormRef.current.noofbathrooms.value;
-        const year = propertyFormRef.current.year.value;
-        //const addressObj={address1,address2,city,pcode,state,country};
-        const propertyData = {type, category,price,noofbedrooms,noofbathrooms,description};*/
-         savePropertyToDabase()
-    
-       /* savePropertyToDbApi(values)
-        .then(() => setSaveMsg('Record successfully updated')
+         savePropertyToDabase();
      
-          )
-       .catch(() => setSaveMsg('Record fail to update'));*/
     };
     useEffect(() => {
-    //  $(datePickerRef.current).datepicker();
+   
 
     }, []);
     
         const handleImageChange = (e) => {
           const file = e.target.files[0];
-          setFile(event.target.files[0])
+          setFile(e.target.files[0])
 
           if (file && e.target.files.length>0) {
             
@@ -61,35 +42,9 @@ export default function AddProperty(){
             inputRef.current.click();
         }
     
-        /*const saveImageToFolder = (event) => {
-          fs.writeFile(`../Owners/images/${files.target.files[0].name}.png`, files.target.files[0], function (err) {
-          if (err) throw err;
-    
-            }); 
-         }*/
-
-         /*const savePropertyToDabase = () => {
-
         
-          return axios.post("http://localhost:8080/api/v1/properties/create", propertyData, {
-            
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-            .then(response => {
-                setSaveMsg('Property successfully updated')
-                navigate('/add-property');
-            })
-        };*/
-
-        const savePostToDb = (event) => {
+        const saveProbToDb = (event) => {
           event.preventDefault();
-    
-          /*const type = propertyFormRef.current.type.value;
-          const category = propertyFormRef.current.category.value;
-          const country = propertyFormRef.current.country.value;*/
 
           const form = propertyFormRef.current;
           const  address1={
@@ -102,7 +57,7 @@ export default function AddProperty(){
             country:form['country'].value, 
             }
           const data = {
-            name:"Testing",
+            name:form['name'].value,
             description :form['description'].value,
             price :form['price'].value,
             status:"AVAILABLE",
@@ -119,7 +74,7 @@ export default function AddProperty(){
           const formData = new FormData()
           formData.append("file", file)
     
-          //const values = {type, category, country };
+
           axios.post("http://localhost:8080/api/files/upload", formData, {
             
           headers: {
@@ -134,17 +89,7 @@ export default function AddProperty(){
 
 
       
-          return axios.post("http://localhost:8080/api/v1/properties/create", data, {
-            
-          headers: {
-              Authorization: `Bearer ${token}`
-              //'Content-Type': 'multipart/form-data'
-          }
-           })
-          .then(() => setSaveMsg('Record successfully saved')
-       
-            )
-          .catch(() => setSaveMsg('Record fail to save'));
+          
       };
       
     return (
@@ -153,13 +98,19 @@ export default function AddProperty(){
 
         <div className="container">
 
-          <form ref={propertyFormRef} onSubmit={savePostToDb} >
+         
+        <form ref={propertyFormRef} onSubmit={saveProbToDb} >
             <div className="card card mx-auto mb-3">
             {saveMsg && <div className="alert alert-success">{saveMsg}</div>}
             <div className="card-body">
                <h1 style={{ textAlign: 'center', fontSize:'25px' }} className="mb-3">Register New Property</h1>
 
                 <div className="row">
+
+                    <div className="form-group col-sm-4">
+                          <label>Property name</label>
+                          <input type="text" className="form-control col-sm-6 mb-3" name={"name"} label={"name"} valu />
+                      </div>
 
                       <div className="form-group  col-sm-4 mb-3">
                       <label>Listing type:</label>
@@ -175,17 +126,16 @@ export default function AddProperty(){
                                   <option>APARTMENT</option>
                                   <option>CONDOMINIUM</option>
                               </select>
-                      </div>
-
-                      <div className="form-group col-sm-4">
-                          <label>Country</label>
-                          <input type="text" className="form-control col-sm-6 mb-3" name={"country"} label={"country"} />
-                      </div>
+                      </div>  
 
                 </div>
                 
                 <div className="row">
-                  
+
+                    <div className="form-group col-sm-4">
+                          <label>Country</label>
+                          <input type="text" className="form-control col-sm-6 mb-3" name={"country"} label={"country"} />
+                      </div>
                     
                       <div className="form-group col-sm-4">
                             <label>Address line 1 </label>
@@ -197,15 +147,14 @@ export default function AddProperty(){
                         <input type="text" className="form-control col-sm-6 mb-3" name={"address2"} />
                     </div>
 
-                    <div className="form-group col-sm-4">
-                        <label>City:</label>
-                        <input type="text" className="form-control col-sm-6 mb-3" name={"city"} />
-                    </div>
-
               </div>
 
               <div className="row ">
 
+               <div className="form-group col-sm-4">
+                        <label>City:</label>
+                        <input type="text" className="form-control col-sm-6 mb-3" name={"city"} />
+                    </div>
 
                 <div className="form-group col-sm-4">
                     <label>State:</label>
@@ -217,14 +166,14 @@ export default function AddProperty(){
                       <input type="text" className="form-control col-sm-6 mb-3" name={"pcode"} />
                   </div>
 
-                  <div className="form-group col-sm-4">
-                      <label>Price</label>
-                      <input type="text" className="form-control col-sm-6 mb-3" name={"price"} label={"price"} />
-                  </div>
-
               </div>
 
               <div className="row">
+
+              <div className="form-group col-sm-4">
+                      <label>Price</label>
+                      <input type="text" className="form-control col-sm-6 mb-3" name={"price"} label={"price"} />
+                  </div>
 
                   <div className="form-group col-sm-4">
                         <label>Number of Bath rooms</label>
@@ -235,29 +184,34 @@ export default function AddProperty(){
                         <label>Number of Bed rooms</label>
                         <input type="text" className="form-control mb-3" name={"noofbedrooms"} />
                     </div>
-                    <div className="form-group col-sm-4">
-                        <label>Year of construction</label>
-                        <input type="date" className="form-control  mb-3" name={"constructionDate"} label={"constructionDate"} />
-                    </div>
 
               </div>
 
               <div className="row">
-              <div className="form-group col-sm-4 mb-3">
-                <label>Description</label>
-                <textarea className="form-control" id="description"  name={"description"} label={"description"} rows="3"></textarea>
-              </div>
-              <div className="form-group col-sm-4">
-                <label htmlFor="fileInput">Choose file:</label>
-                <input type="file" className="form-control-file" id="fileInput" onChange={handleImageChange} ref={inputRef}/>
-             </div>
-          
+                  <div className="form-group col-sm-4">
+                        <label>Year of construction</label>
+                        <input type="date" className="form-control  mb-3" name={"constructionDate"} label={"constructionDate"} />
+                    </div>
+                  
+                  <div className="form-group col-sm-4">
+                    <label htmlFor="fileInput">Choose file:</label>
+                    <input type="file" className="form-control-file" id="fileInput" onChange={handleImageChange} ref={inputRef}/>
+                </div>
+              
 
-              <div  className="form-group col-sm-4 mb-3"  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <label>Image uploads here</label>
-                {image? <img src={URL.createObjectURL(image)} alt="Preview" style={{ maxWidth: 'auto%',height:'100px'  }}  className="propImg"/>:<img />}
-                    
-              </div>
+                  <div  className="form-group col-sm-4 mb-3"  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <label>Image uploads here</label>
+                    {image? <img src={URL.createObjectURL(image)} alt="Preview" style={{ maxWidth: 'auto%',height:'100px'  }}  className="propImg"/>:<img />}
+                        
+                  </div>
+
+             </div>
+             <div class="row">
+
+                 <div className="form-group col-sm-12 mb-3">
+                    <label>Description</label>
+                    <textarea className="form-control" id="description"  name={"description"} label={"description"} rows="3"></textarea>
+                  </div>
 
              </div>
 
