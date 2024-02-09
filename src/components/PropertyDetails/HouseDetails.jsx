@@ -70,6 +70,14 @@ const likeProperty = async () => {
         },
       });
       // Refetch the favorite properties to update the UI
+      //toast to show success message
+      toast({
+        title: 'Property liked successfully',
+        description: 'The property has been liked successfully.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
       fetchFavoriteProperties();
     } catch (error) {
       console.error('Error liking the property:', error);
@@ -94,6 +102,14 @@ const unlikeProperty = async () => {
         },
       });
       // Refetch the favorite properties to update the UI
+      //toast to show success message
+      toast({
+        title: 'Property unliked successfully',
+        description: 'The property has been unliked successfully.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
       fetchFavoriteProperties();
     } catch (error) {
       console.error('Error unliking the property:', error);

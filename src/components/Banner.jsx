@@ -179,7 +179,12 @@ const isAdmin = user && user.role == "ADMIN";
       Find Your Home
     </Button>
 
+
 }
+
+
+{user && user.role== 'CUSTOMER' && <Link to='/favorites'>  <Button colorScheme='teal' alignSelf={true}>My Favourites</Button>  </Link>}
+
 
 
 
