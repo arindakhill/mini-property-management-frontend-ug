@@ -3,6 +3,7 @@ import Search from '../components/Search/Search'
 import HouseList from '../components/Houses/HouseList';
 import {useContext, useRef} from 'react'
 import { useAuth } from '../context/AuthContext';
+import SearchFilters from '../components/Search/SearchFilters';
 
 
 
@@ -19,7 +20,7 @@ const Home = () => {
       <Banner  searchRef={searchRef}/>
       <div ref={searchRef}>
 {(!user || showSearchAndList) &&
-      <Search />
+      <SearchFilters />
   }
   {(!user || showSearchAndList)&&
       <HouseList />
