@@ -26,14 +26,46 @@ const HouseProvider = ({children}) =>{
     const [property, setProperty] = useState('');
     const [properties, setProperties] = useState([]);
     const [listingType,setListingType] = useState('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [minBedRooms, setMinBedRooms] = useState('');
+    const [maxBedRooms, setMaxBedRooms] = useState('');
+    const [minBathRooms, setMinBathRooms] = useState('');
+    const [maxBathRooms, setMaxBathRooms] = useState('');
+    const [propertyType, setPropertyType] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [page, setPage] = useState(0);
+    const [size, setSize] = useState(9);
 
 
 
 //Function to fetch all properties from backend
     const fetchProperties = async () => {
+        
+
         setIsLoading(true);
+        let query = `?page=0&size=9`;
+
+
+// Append query parameters if they exist
+if (minPrice) query += `&minPrice=${minPrice}`;
+if (maxPrice) query += `&maxPrice=${maxPrice}`;
+if (listingType) query += `&listingType=${listingType}`;
+if (minBedRooms) query += `&minBedRooms=${minBedRooms}`;
+if (maxBedRooms) query += `&maxBedRooms=${maxBedRooms}`;
+if (minBathRooms) query += `&minBathRooms=${minBathRooms}`;
+if (maxBathRooms) query += `&maxBathRooms=${maxBathRooms}`;
+if (propertyType) query += `&propertyType=${propertyType}`;
+if (city) query += `&city=${city}`;
+if (state) query += `&state=${state}`;
+if(page) query += `&page=${page}`;
+if(size) query += `&size=${size}`;
+
+
+
         try {
-            const response = await axios.get('http://localhost:8080/api/v1/properties')
+            const response = await axios.get(`http://localhost:8080/api/v1/properties${query}`)
             setHouses(response.data.content);
             console.log(houses);
 
@@ -65,24 +97,26 @@ const HouseProvider = ({children}) =>{
             
           // setHouses([]);
             
+        }finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
+       
     };
 
     useEffect(() => {
         fetchProperties();
-    }, []);
+    }, [minPrice, maxPrice, listingType, minBedRooms, maxBedRooms, minBathRooms, maxBathRooms, propertyType, city, state, page, size]);
 
     //fetch all property types
-    useEffect(() => {
-        const allCountries = houses.map(house => house.address.country);
-        const uniqueCountries = [...new Set(allCountries)];
-        setCountries(uniqueCountries);
+    // useEffect(() => {
+    //     const allCountries = houses.map(house => house.address.country);
+    //     const uniqueCountries = [...new Set(allCountries)];
+    //     setCountries(uniqueCountries);
       
-        const allPropertyTypes = houses.map(house => house.propertyType);
-        const uniquePropertyTypes = [...new Set(allPropertyTypes)];
-        setProperties(uniquePropertyTypes);
-      }, [houses]); // This effect depends on 'houses' and will run after 'houses' is updated.
+    //     const allPropertyTypes = houses.map(house => house.propertyType);
+    //     const uniquePropertyTypes = [...new Set(allPropertyTypes)];
+    //     setProperties(uniquePropertyTypes);
+    //   }, [houses]); // This effect depends on 'houses' and will run after 'houses' is updated.
       
 
 
@@ -101,6 +135,19 @@ const HouseProvider = ({children}) =>{
             setCountry('');
             setPrice('');
             setProperty('');
+            setListingType('');
+            setMinBathRooms('');
+            setMaxBathRooms('');
+            setMinBedRooms('');
+            setMaxBedRooms('');
+            setMinPrice('');
+            setMaxPrice('');
+            setPropertyType('');
+            setCity('');
+            setState('');
+            setPage(0);
+            setSize(9);
+
         
                 fetchProperties();
           
@@ -183,32 +230,32 @@ const HouseProvider = ({children}) =>{
 
 //revised search handler
 
-// Revised search handler
-  const searchHandler = () => {
-    setIsLoading(true);
+// Revised search handler no longer needed. just keeping it here for reference
+//   const searchHandler = () => {
+//     setIsLoading(true);
 
-    // Checking selection
-    const isDefault = (str) => str === '' || str.includes('Select');
-    const priceRange = price.split('-').map(s => parseInt(s.trim()));
-    const minPrice = priceRange[0] || 0;
-    const maxPrice = priceRange[1] || Infinity;
+//     // Checking selection
+//     const isDefault = (str) => str === '' || str.includes('Select');
+//     const priceRange = price.split('-').map(s => parseInt(s.trim()));
+//     const minPrice = priceRange[0] || 0;
+//     const maxPrice = priceRange[1] || Infinity;
 
-    const filteredHouses = houses.filter(house => {
-      const housePrice = parseInt(house.price);
-      const matchesCountry = isDefault(country) || house.address.country === country;
-      const matchesPrice = housePrice >= minPrice && housePrice <= maxPrice;
-      const matchesPropertyType = isDefault(property) || house.propertyType === property;
-      const matchesListingType = isDefault(listingType) || house.listingType === listingType;
+//     const filteredHouses = houses.filter(house => {
+//       const housePrice = parseInt(house.price);
+//       const matchesCountry = isDefault(country) || house.address.country === country;
+//       const matchesPrice = housePrice >= minPrice && housePrice <= maxPrice;
+//       const matchesPropertyType = isDefault(property) || house.propertyType === property;
+//       const matchesListingType = isDefault(listingType) || house.listingType === listingType;
 
-      return matchesCountry && matchesPrice && matchesPropertyType && matchesListingType;
-    });
+//       return matchesCountry && matchesPrice && matchesPropertyType && matchesListingType;
+//     });
 
-    // Ensure filteredHouses is used to update the UI
-    setTimeout(() => {
-      setHouses(filteredHouses);
-      setIsLoading(false);
-    }, 500); // Short delay to simulate asynchronous data fetching
-  };
+//     // Ensure filteredHouses is used to update the UI
+//     setTimeout(() => {
+//       setHouses(filteredHouses);
+//       setIsLoading(false);
+//     }, 500); // Short delay to simulate asynchronous data fetching
+//   };
   
 
 
@@ -217,15 +264,29 @@ const HouseProvider = ({children}) =>{
     return(
         <HouseContext.Provider value={{
             houses,
+            isLoading,
+            fetchProperties,
+            setMinPrice,
+            setMaxPrice,
+            setMinBathRooms,
+            setMaxBathRooms,
+            setMinBedRooms,
+            setMaxBedRooms,
+            setPropertyType,
+            setCity,
+            setState,
+            setPage,
+            setSize,
             country,
             setCountry,
             countries,
             price,
             setPrice,
             property,
+            propertyType,
             setProperty,
             properties,
-            searchHandler,
+           
             isLoading,
             clearFilters,
             listingType,

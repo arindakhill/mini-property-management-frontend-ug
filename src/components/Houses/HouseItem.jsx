@@ -121,9 +121,13 @@ const HouseItem = ({ house }) => {
         <VStack p='4' align='left'>
             <Text mt="-1" fontWeight="extrabold" fontSize="18px" color="pink.500">
             $ {house.price}
-            <span style={{ fontSize: 12, color: "grey", fontWeight: "normal" }}>
+           {house.listingType=='RENT' && <span style={{ fontSize: 12, color: "grey", fontWeight: "normal" }}>
                 /month
-            </span>
+            </span>}
+            {house.listingType=='SALE' && <span style={{ fontSize: 12, color: "red", fontWeight: "normal" }}>
+                Hot Sale
+            </span>}
+
             </Text>
 
             <Heading fontSize="24px" letterSpacing="tight">

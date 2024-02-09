@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, SimpleGrid, useToast } from '@chakra-ui/react';
+import { Box, SimpleGrid, useToast ,Heading} from '@chakra-ui/react';
 import HouseItem from './HouseItem'; // Adjust the import path as necessary
 import { useAuth } from '../../context/AuthContext';
 
@@ -36,13 +36,18 @@ const FavoritesList = () => {
   };
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
-      {favorites.map(house => (
-        <Box key={house.id}>
-          <HouseItem house={house} />
-        </Box>
-      ))}
-    </SimpleGrid>
+    <>
+      <Heading as="h2" size="xl" textAlign="center" mb={10}>
+       { `${user.firstname}'s Favorite Properties`}
+      </Heading>
+      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+        {favorites.map(house => (
+          <Box key={house.id}>
+            <HouseItem house={house} />
+          </Box>
+        ))}
+      </SimpleGrid>
+    </>
   );
 };
 
