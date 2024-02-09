@@ -24,40 +24,38 @@ import { useContext, useState, useEffect } from "react";
 
 const HouseItem = ({ house }) => {
   const toast = useToast();
-  const { user } = useAuth; // Using AuthContext to access the current user
+  const { user } = useAuth(); // Corrected to useAuth()
   const [isFavorite, setIsFavorite] = useState(false);
   const styles = useStyleConfig("HouseItem");
 
-  useEffect(() => {
-    // Function to check if the current property is in the user's favorite list
-    const checkFavoriteStatus = async () => {
-      if (user) {
-        try {
-          const response = await axios.get(`http://localhost:8080/api/v1/properties/favourite-properties`, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } // Assuming you have the token in your user context
-          });
-          const favoriteProperties = response.data;
-          setIsFavorite(favoriteProperties.some(favoriteProperty => favoriteProperty.id === house.id));
-        } catch (error) {
-          console.error('Error fetching favorite properties:', error);
-          //use toast to show error message
-          toast({
-            title: 'Error fetching favorite properties',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-          });
-        }
+  // Function to fetch favorite status
+  const fetchFavoriteStatus = async () => {
+    if (user) {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/v1/properties/favourite-properties`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        });
+        // Check if the current house is in the favorites
+        setIsFavorite(response.data.some(property => property.id === house.id));
+      } catch (error) {
+        toast({
+          title: 'Error fetching favorite status',
+          description: error.response?.data?.message || error.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
       }
-    };
+    }
+  };
 
-    checkFavoriteStatus();
-  }, [house.id, user]);
-
-  const toggleFavorite = async () => {
+  // Function to handle like/unlike
+  const handleFavoriteToggle = async () => {
     if (!user) {
       toast({
-        title: 'You must be signed in to modify favorites.',
+        title: 'You must be signed in to add favorites.',
         status: 'warning',
         duration: 5000,
         isClosable: true,
@@ -66,39 +64,23 @@ const HouseItem = ({ house }) => {
     }
 
     try {
-      const url = `http://localhost:8080/api/v1/properties/${house.id}/unlike`;
-      if (isFavorite) {
-        // Call unlike endpoint
-        await axios.post(`http://localhost:8080/api/v1/properties/${house.id}/unlike`, {
-          headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}`  },
-        });
-        setIsFavorite(false);
-        toast({
-          title: 'Removed from Favorites',
-          description: 'This property has been removed from your favorites.',
-          status: 'info',
-          duration: 5000,
-          isClosable: true,
-        });
-      } else {
-        // Call like endpoint
-        await axios.post(`http://localhost:8080/api/v1/properties/${house.id}/like`, {}, {
-          headers: { Authorization:  `Bearer ${sessionStorage.getItem('token')}`  },
-        });
-        setIsFavorite(true);
-        toast({
-          title: 'Added to Favorites',
-          description: 'This property has been added to your favorites.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-      }
-    } catch (error) {
-      console.error('Error modifying favorite status:', error);
+      const endpoint = isFavorite ? 'unlike' : 'like';
+      await axios.post(`http://localhost:8080/api/v1/properties/${house.id}/${endpoint}`, {}, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
+      });
+      setIsFavorite(!isFavorite);
       toast({
-        title: 'Error',
-        description: 'An error occurred while modifying favorite status.',
+        title: isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
+        status: isFavorite ? 'info' : 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: 'Error updating favorite status',
+        description: error.response?.data?.message || error.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -106,7 +88,10 @@ const HouseItem = ({ house }) => {
     }
   };
 
-
+  // Fetch the favorite status when the component mounts
+  useEffect(() => {
+    fetchFavoriteStatus();
+  }, [house.id, user]);
 
 
  
@@ -164,8 +149,8 @@ const HouseItem = ({ house }) => {
 
             <Button leftIcon={isFavorite ? <StarIcon /> : <StarIcon />} 
                 colorScheme="yellow" size="sm" 
-                onClick={() => addToFavorites(house.id)}
-                isDisabled={isFavorite}>
+                onClick={handleFavoriteToggle}
+                isDisabled={!user}>
           {isFavorite ? 'Favorited' : 'Add to Favorites'}
         </Button>
 

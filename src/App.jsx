@@ -34,6 +34,9 @@ import Layout from './Layout';
 import { getPropertiesApi } from './Api/Api';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+//Admin related components
+import Customers from './components/Admin/Customers';
+
 
 
 const App = () => {
@@ -68,6 +71,9 @@ const App = () => {
           <Route path='/update-property' element={<UpdateProperty/>} />
           <Route path='/offers' element={<PropertyOffers/>} />
           <Route path='/update-offer' element={<UpdateOffer/>} />
+
+
+          <Route path='/view-all-customers' element={<Customers/>} />
 
 
           <Route path="*"
