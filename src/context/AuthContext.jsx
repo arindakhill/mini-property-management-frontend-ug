@@ -102,7 +102,7 @@ setUser({
     });
     setUser(null);
     sessionStorage.removeItem('token');
-    //const navigate = useNavigate();
+   //const navigate = useNavigate();
     //navigate('/signin');
   }catch(error){
     throw new Error('Sign out failed',error.message);
@@ -112,7 +112,7 @@ setUser({
 
 const updateUserPassword = async (currentPassword, newPassword, confirmNewPassword) => {
   try {
-      const accessToken = sessionStorage.getItem('token');
+    const accessToken = sessionStorage.getItem('token');
     // Make sure accessToken is available
     if (!accessToken) {
       throw new Error('Access token not found.');

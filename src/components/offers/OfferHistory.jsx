@@ -2,27 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { Box, VStack, Text, Button, Heading, useColorModeValue, useDisclosure , Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, ModalFooter, NumberInput, NumberInputField, Select, HStack} from '@chakra-ui/react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom'; // If using React Router
+import axios from 'axios';
+import {useToast} from '@chakra-ui/react';
 
 const OfferHistory = () => {
-  const { user } = useAuth();
+  const { user } = useAuth(); // get logged in user
+  const toast = useToast();
 
   const [userOffers, setUserOffers] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+const apiUrl = 'http://localhost:8080/api/v1/properties/offers';
   const navigate = useNavigate(); // For navigation
   
 
   useEffect(() => {
-    const fetchUserOffers = () => {
-      const allOffers = JSON.parse(localStorage.getItem('offers')) || [];
-      const offers = allOffers.filter(offer => offer.userId === user.id);
-      setUserOffers(offers);
+    const fetchUserOffers = async () => {
+      if (user) {
+        try {
+          const response = await axios.get(`${apiUrl}`, {
+            headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+          });
+          setUserOffers(response.data);
+        } catch (error) {
+          console.error('Error fetching offers:', error);
+          // Optionally, handle the error, e.g., showing a notification using a toast
+          toast({
+            title: 'Error fetching offers',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+
+
+        }
+      }
     };
 
-    if (user) {
-      fetchUserOffers();
-    }
+    fetchUserOffers();
   }, [user]);
 
   // Mock function to navigate to property details - adjust with your actual routing logic
@@ -30,17 +47,32 @@ const OfferHistory = () => {
     navigate(`/property-details/${propertyId}`);
   };
 
-  const updateOffer = (offerId, newAmount, newType) => {
-    const offers = JSON.parse(localStorage.getItem('offers')) || [];
-    const offerIndex = offers.findIndex(offer => offer.id === offerId);
-    if (offerIndex > -1) {
-      offers[offerIndex].offerAmount = newAmount;
-      offers[offerIndex].offerType = newType;
-      localStorage.setItem('offers', JSON.stringify(offers));
-      fetchUserOffers(); // Refresh offers after update
-      onClose(); // Close modal
+  // Function to update an offer
+  const updateOffer = async (offerId, newOfferAmount, newOfferType) => {
+    try {
+      const response = await axios.put(`http://localhost:8080/api/v1/properties/${selectedOffer.property.id}/offers`, {
+        offerAmount: newOfferAmount,
+        offerType: newOfferType,
+      }, {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+      });
+      // Update the userOffers state with the updated offer
+      console.log('Offer updated successfully',response.data);
+      //refresh the page
+      window.location.reload();
+      onClose();//close the modal
+    } catch (error) {
+      console.error('Error updating offer:', error);
+      // Optionally, handle the error, e.g., showing a notification using a toast
+      toast({
+        title: 'Error updating offer',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
-  };
+  }
+
 
 
 
@@ -71,7 +103,7 @@ const OfferHistory = () => {
             <Button
             
               colorScheme="teal"
-              onClick={() => goToPropertyDetails(offer.propertyId)}
+              onClick={() => goToPropertyDetails(offer.property.id)}
             >
               View Property
             </Button>
