@@ -1,20 +1,29 @@
 import Banner from '../components/Banner'
 import Search from '../components/Search/Search'
 import HouseList from '../components/Houses/HouseList';
-import {useRef} from 'react'
+import {useContext, useRef} from 'react'
+import { useAuth } from '../context/AuthContext';
 
 
 
 const Home = () => {
 
+  const{user} = useAuth();
+
   const searchRef = useRef(null);
+
+  const showSearchAndList = user && user.role !== "OWNER";
 
   return (
     <>
       <Banner  searchRef={searchRef}/>
       <div ref={searchRef}>
+{(!user || showSearchAndList) &&
       <Search />
+  }
+  {(!user || showSearchAndList)&&
       <HouseList />
+  }
       </div>
     </>
   )

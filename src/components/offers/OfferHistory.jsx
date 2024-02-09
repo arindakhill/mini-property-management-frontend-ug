@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom'; // If using React Router
 import axios from 'axios';
 import {useToast} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const OfferHistory = () => {
   const { user } = useAuth(); // get logged in user
@@ -13,7 +14,11 @@ const OfferHistory = () => {
   const [selectedOffer, setSelectedOffer] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 const apiUrl = 'http://localhost:8080/api/v1/properties/offers';
+const deleteUrl = 'http://localhost:8080/api/v1/properties';
+
   const navigate = useNavigate(); // For navigation
+
+ 
   
 
   useEffect(() => {
@@ -39,13 +44,72 @@ const apiUrl = 'http://localhost:8080/api/v1/properties/offers';
       }
     };
 
-    fetchUserOffers();
-  }, [user]);
+   //fetchUserOffers();
+  // window.location.reload();
+  }, [user,userOffers]);
 
-  // Mock function to navigate to property details - adjust with your actual routing logic
+  //  function to navigate to property details 
   const goToPropertyDetails = (propertyId) => {
     navigate(`/property-details/${propertyId}`);
   };
+
+const checkAndDeleteOffer = async (offerId, propertyId) => {
+  try{
+    //check if offer can be deleted
+    console.log('OfferId:',offerId)
+    //print propertyId
+    console.log('PropertyId:',propertyId);
+
+    const canDeleteResponse = await axios.get(`http://localhost:8080/api/v1/properties/${propertyId}/can-delete-offer`, {
+      headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+    });
+
+      if(canDeleteResponse.data === true){
+        console.log('Can delete offer:',canDeleteResponse.data);
+        //delete the offer
+     await axios.delete(`http://localhost:8080/api/v1/properties/${propertyId}/offers`, {
+          headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+        });
+        console.log('Offer deleted successfully',response.data);
+          //toast to show success message
+          toast({
+            title: 'Offer deleted successfully',
+            description: 'Your offer has been deleted successfully.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+
+        //refresh the page
+        //window.location.reload();
+       const updatedOffers = userOffers.filter(offer => offer.id !== offerId);
+       setUserOffers(updatedOffers);
+      // window.location.reload();
+      }else{
+        //toast to show error message
+        toast({
+          title: 'failed to delete offer yet i was eligible to delete',
+          description: 'failed to delete offer yet i was eligible to delete',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }catch (error) {
+        console.error('Error deleting offer:', error);
+        // Optionally, handle the error, e.g., showing a notification using a toast
+        toast({
+          title: 'Error deleting offer',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+
+  }
+}
+
+
+
 
   // Function to update an offer
   const updateOffer = async (offerId, newOfferAmount, newOfferType) => {
@@ -111,13 +175,18 @@ const apiUrl = 'http://localhost:8080/api/v1/properties/offers';
             <Button  colorScheme="teal" onClick={() => { setSelectedOffer(offer); onOpen(); }}>
               Update Offer
             </Button>
+
+            <Button  colorScheme="red" onClick={() => { setSelectedOffer(offer); console.log(selectedOffer);checkAndDeleteOffer(selectedOffer.id,selectedOffer.property.id) }}>
+              Cancel Offer
+            </Button>
+
             </HStack>
           </Box>
          
         ))
       ) 
        : 
-        <Text textAlign="center">No offers made yet.</Text>
+       <Link to="/" ><Text textAlign="center" color='pink.700'>No offers made yet. Search for properties</Text>  </Link>
       }
 
 
@@ -131,13 +200,13 @@ const apiUrl = 'http://localhost:8080/api/v1/properties/offers';
           <ModalCloseButton />
           <ModalBody>
             {/* Input for new offer amount */}
-            <NumberInput defaultValue={selectedOffer?.offerAmount} min={0}>
+            <NumberInput defaultValue={selectedOffer?.offerAmount} min={0} required>
               <NumberInputField id="offerAmount" placeholder="Enter your new offer amount" />
             </NumberInput>
             {/* Select for new offer type */}
-            <Select placeholder="Select offer type" defaultValue={selectedOffer?.offerType} mt={4} id="offerType">
+            <Select placeholder="Select offer type" defaultValue={selectedOffer?.offerType} mt={4} id="offerType" required>
               <option value="CASH">Cash</option>
-              <option value="DOWNPAYMENT">Down Payment</option>
+              <option value="DOWNPAYMENT" >Down Payment</option>
               <option value="CREDIT">Credit</option>
             </Select>
           </ModalBody>

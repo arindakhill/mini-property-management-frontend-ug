@@ -1,7 +1,8 @@
+
 export const bannerData = [
-    {1200: 'Premium Product'}, 
-    {4500: 'Happy Customer'}, 
-    {'240': 'Award Winning'}
+    {1200: 'Premium Quality Listings'}, 
+    {4500: 'Happy Customers'}, 
+    {'Only': 'Leaders in RealEstate Excellence'},
 ]
 
 // import house images
