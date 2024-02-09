@@ -92,26 +92,29 @@ export default function AddProperty(){
           const country = propertyFormRef.current.country.value;*/
 
           const form = propertyFormRef.current;
+          const  address1={
+           
+            line1:form['address1'].value,
+            line2:form['address2'].value,
+            city :form['city'].value,
+            state:form['state'].value,
+            postalCode : form['pcode'].value, 
+            country:form['country'].value, 
+            }
           const data = {
-              listingType:form['type'].value,
-              propertyType:form['category'].value,
+            name:"Testing",
+            description :form['description'].value,
+            price :form['price'].value,
+            status:"AVAILABLE",
+            listingType:form['type'].value,
+            propertyType:form['category'].value,
+            bathRooms :form['noofbathrooms'].value, 
+            bedRooms :form['noofbedrooms'].value, 
               
-             /* address:{
-              country:form['country'].value,
-              line1:form['address1'].value,
-              line2:form['address2'].value,
-              state:form['state'].value,
-              city :form['city'].value,
-              postalCode : form['pcode'].value,  
-              },
-              address:address,*/
-             
-              price :form['price'].value,
-              bedRooms :form['noofbedrooms'].value,
-              bathRooms :form['noofbathrooms'].value,
-              description :form['description'].value,
-              constructionDate: form['constructionDate'].value,
-              imageUrl:file.name
+            address:address1,
+            imageUrl:file.name,
+            constructionDate: form['constructionDate'].value,
+              
           };
           const formData = new FormData()
           formData.append("file", file)
@@ -152,7 +155,7 @@ export default function AddProperty(){
 
           <form ref={propertyFormRef} onSubmit={savePostToDb} >
             <div className="card card mx-auto mb-3">
-            {saveMsg && <div className="alert alert-warning">{saveMsg}</div>}
+            {saveMsg && <div className="alert alert-success">{saveMsg}</div>}
             <div className="card-body">
                <h1 style={{ textAlign: 'center', fontSize:'25px' }} className="mb-3">Register New Property</h1>
 

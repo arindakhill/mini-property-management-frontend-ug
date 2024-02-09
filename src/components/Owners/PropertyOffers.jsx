@@ -19,14 +19,14 @@ export default function PropertyOffers(){
 
     
      const getAllProperiesOffers = () => {
-      return axios.get(`http://localhost:8080/api/v1/properties/`, {
+      return axios.get(`http://localhost:8080/api/v1/properties/offers-by-owner`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(response => {
         const propertyData = response.data;
-        setpropertyList(propertyData);
+        setOffer(propertyData);
       })
       .catch(error => {
         throw error;
@@ -36,9 +36,12 @@ export default function PropertyOffers(){
    
    
     const   goToPropertyUpdateOffer=(oId)=>{
-        const selectedOffer= propertyPayment.find((offer)=>offer.id===oId);
-         setSelectedProperty(selectedOffer)
+         const selectedOffer= offerList.find((offer)=>offer.id===oId);
+         setOffer(selectedOffer)
          navigate('/update-offer',{ state: { offer: selectedOffer } });
+
+       
+
 
       }
 
@@ -59,9 +62,9 @@ export default function PropertyOffers(){
                 <th scope="col">ID</th>
                 <th scope="col">PropertyName</th>
                 <th scope="col">Address</th>
-                <th scope="col">Owner Firstname</th>
-                <th scope="col">Owner Lastname</th>
-                <th scope="col">Category</th>
+                <th scope="col">Customer Firstname</th>
+                <th scope="col">Customer Lastname</th>
+                <th scope="col">Offer type</th>
                 <th scope="col">Amount</th>
                 <th scope="col">OrderDate</th>
                 <th scope="col">Status</th>
@@ -74,14 +77,14 @@ export default function PropertyOffers(){
                 row=>(
                     <tr key={row.id}>
                     <td>{row.id}</td>
-                    <td>{row.propertyName}</td>
-                    <td>{row.address}</td>
-                    <td>{row.ownerFirstName}</td>
-                    <td>{row.ownerLastName}</td>
-                    <td>{row.category}</td>
-                    <td>{row.amount}</td>
-                    <td>{row.orderDate}</td>
-                    <td>{row.status}</td>
+                    <td>{row.property.name}</td>
+                    <td>{row.property.address.line1}</td>
+                    <td>{row.customer.user.firstname}</td>
+                    <td>{row.customer.user.lastname}</td>
+                    <td>{row.offerType}</td>
+                    <td>{row.offerAmount}</td>
+                    <td>{row.offerDate}</td>
+                    <td>{row.offerStatus}</td>
                    
                     <td><button type="button" className="btn btn-warning btn-flat"onClick={()=>goToPropertyUpdateOffer(row.id)} >Update status</button></td>         
                     </tr>
