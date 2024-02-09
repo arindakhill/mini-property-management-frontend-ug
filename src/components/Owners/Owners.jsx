@@ -77,7 +77,30 @@ export default function Owners(){
             
           
             };
-         
+            const approveOwnerByAdmin = (propertyId, offerId) => {
+
+              
+
+                  return axios
+                    .put(
+                      `http://localhost:8080/api/v1/properties/${propertyId}/offers/${offerId}/reject`,
+                      {},
+                      {
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      }
+                    )
+                    .then((response) => {
+                      setOfferAcceptMsg("Offer successfully rejected");
+                    })
+                    .catch((error) => {
+                      throw error;
+                    });
+                  
+              };
+          
+          
     
 
     return (
@@ -111,7 +134,7 @@ export default function Owners(){
                <td>{row.user.lastname}</td>
                <td>{row.user.email}</td>
                <td>{row.enabled}</td>
-               <td><button type="button" className="btn btn-success btn-flat" >Activate</button></td>
+               <td><button type="button" className="btn btn-success btn-flat" >Approve</button></td>
                <td><button type="button" className="btn btn-warning">Deactivate</button></td>
                <td><button type="button" className="btn btn-warning" onClick={()=>showOwnerDetails(row.id)}>Details</button></td>
                

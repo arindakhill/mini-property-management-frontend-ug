@@ -41,15 +41,6 @@ export default function PropertyList(){
       };
    
    
-    /* const getAllProperties=(tkn)=>{
-
-        getPropertiesApi(tkn).then(response=>{
-            propertyList(response.data);  
-           console.log(propertyList)
-       })
-        
-        .catch(error=>console.log(error))
-    }*/
   
        const   goToPropertyDetailPage=(propId)=>{
         const selectedProp= propertyList.find((prop)=>prop.id===propId);
@@ -81,6 +72,7 @@ export default function PropertyList(){
             <thead>
                 <tr>
                 <th scope="col">ID</th>
+                <th scope="col">Property name</th>
                 <th scope="col">Owner Firstname</th>
                 <th scope="col">Owner Lastname</th>
                 <th scope="col">ListingType</th>
@@ -96,10 +88,11 @@ export default function PropertyList(){
                     <tr key={row.id}>
                     <td>{row.id}</td>
                     <td>{row.name}</td>
-                    <td>{row.description}</td>
-                    <td>{row.listing_type}</td>
-                    <td>{row.property_type}</td>
-                    <td><button type="button" className="btn btn-success btn-flat"onClick={()=>goToPropertyDetailPage(row.id)} >Details</button></td>   
+                    <td></td>
+                    <td></td>
+                    <td>{row.listingType}</td>
+                    <td>{row.propertyType}</td>
+                    <td><button type="button" className="btn btn-success btn-flat"onClick={()=>goToPropertyDetailPage(row.id)} >Details...</button></td>   
                     <td><button type="button" className="btn btn-warning btn-flat"onClick={()=>goToPropertyEditPage(row.id)} >Update</button></td>         
                     </tr>
                 )
