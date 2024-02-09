@@ -20,11 +20,14 @@ import {
   Select
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+
 
 const Form = ({ searchedHouse, user }) => {
 // Construct the default message only if user and searchedHouse are available
 const defaultMessage = user && searchedHouse
-  ? `Hello, I am interested in your property located at ${searchedHouse.address}. My name is ${user.firstname} ${user.lastname} and I can be reached on tel: ${user.phoneNumber}.`
+  ? `Hello, I am interested in your property located at ${searchedHouse.address.city}. My name is ${user.firstname} ${user.lastname} and I can be reached on tel: ${user.phoneNumber}.`
   : '';
 
 
@@ -38,17 +41,35 @@ const defaultMessage = user && searchedHouse
    // New state to track if the user can make an offer
    const [canMakeOffer, setCanMakeOffer] = useState(true);
    const navigate = useNavigate();
-
+   const apiUrl = 'http://localhost:8080/api/v1/properties';
+   const token = sessionStorage.getItem('token'); // Retrieve the token
 
    useEffect(() => {
-    const checkIfCanMakeOffer = () => {
-      const offers = JSON.parse(localStorage.getItem('offers')) || [];
-      const existingOffer = offers.find(o => o.propertyId === searchedHouse.id && o.userId === user.id && (o.status === "PENDING" || o.status === "ACCEPTED"));
-      const propertyIsEligible =  searchedHouse.status !== "CONTINGENT";
-
-      setCanMakeOffer(!existingOffer && propertyIsEligible);
+    const checkIfCanMakeOffer = async () => {
+      try {
+        // Assuming there's an endpoint to fetch offers by property ID and user ID
+        const response = await axios.get(`http://localhost:8080/api/v1/properties/${searchedHouse.id}/offers-illegibility`, {
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        });
+  
+       
+  
+        setCanMakeOffer(response.data);
+      } catch (error) {
+        console.error('Error checking if can make offer:', error);
+        toast({
+          title: "Cannot Check Offer Status",
+          description: "There was a problem checking if you can make an offer. Please try again later.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        setCanMakeOffer(false);
+      }
     };
-
+  
     if (user && searchedHouse) {
       checkIfCanMakeOffer();
     }
@@ -72,6 +93,7 @@ if(!user){
 
 
     if(canMakeOffer){
+      console.log('Can place offer');
       onOpen();
     }else{
       toast({
@@ -86,15 +108,36 @@ if(!user){
 
 
 // Add the placeOffer function inside the Form component
-const placeOffer = (offerDetails) => {
-    const offers = JSON.parse(localStorage.getItem('offers')) || [];
-    offerDetails.id = offers.length + 1; // Simple way to generate a unique ID for the offer
-   offerDetails.offerStatus = "PENDING";
-   offerDetails.propertyStatus="PENDING";
-    offers.push(offerDetails);
+const placeOffer = async (offerDetails) => {
+  try {
+    
+    const propertyId = offerDetails.propertyId; // Make sure this is passed correctly
+    const apiUrl = 'http://localhost:8080/api/v1/properties';
+   
+    const token = sessionStorage.getItem('token'); // Retrieve the token
 
-    localStorage.setItem('offers', JSON.stringify(offers));
-  };
+    // Prepare the body of the request based on your backend requirements
+    const body = {
+      offerAmount: offerDetails.offerAmount,
+      offerType: offerDetails.offerType,
+      // You may add other fields required by your backend
+    };
+
+    // Make the POST request to the backend
+    const response = await axios.post(`${apiUrl}/${propertyId}/offers`, body, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Ensure the token is passed in the Authorization header
+      },
+    });
+
+    // Handle the response from the backend
+    console.log('Offer placed successfully:', response.data);
+    // You can use toast or another method to notify the user of success
+  } catch (error) {
+    console.error('Error placing offer:', error.response ? error.response.data : error.message);
+    // Handle errors, e.g., showing an error notification to the user
+  }
+};
 
 
 
@@ -170,10 +213,10 @@ const placeOffer = (offerDetails) => {
         w={{ base: '100%', md: '400px' }}
       >
         <HStack spacing={4}>
-          <Image borderRadius='full' boxSize='50px' src={searchedHouse.agent.image} />
+         {/**<Image borderRadius='full' boxSize='50px' src={searchedHouse.agent.image} /> */} 
           <VStack align="start">
-            <Text fontWeight='bold'>{searchedHouse.agent.name}</Text>
-            <Text fontSize='sm'>{searchedHouse.agent.phone}</Text>
+           {/**<Text fontWeight='bold'>{searchedHouse.agent.name}</Text> */} 
+            {/**<Text fontSize='sm'>{searchedHouse.agent.phone}</Text> */}
           </VStack>
         </HStack>
         
