@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import { HouseContext } from '../../context/HouseContext';
 import { Box, Button, Flex, Input, Select, Text, Heading } from '@chakra-ui/react';
+import { all } from 'axios';
 
 const SearchFilters = () => {
   const {
-    minPrice, setMinPrice, maxPrice, setMaxPrice, listingType, setListingType,
+    houses,minPrice, setMinPrice, maxPrice, setMaxPrice, listingType, setListingType,
     minBedRooms, setMinBedRooms, maxBedRooms, setMaxBedRooms,
     minBathRooms, setMinBathRooms, maxBathRooms, setMaxBathRooms,
     propertyType, setPropertyType, city, setCity, state, setState,
@@ -27,11 +28,18 @@ const SearchFilters = () => {
     // Add more handlers for other filters
 
 
+    const allCites = houses.map(house => house.address.city);
+    const uniqueCities = [...new Set(allCites)];
+    const allStates = houses.map(house => house.address.state);
+    const uniqueStates = [...new Set(allStates)];
+
+
+ 
 
   return (
     <Flex my='3' direction='column' borderRadius='md' bg='#fff' boxShadow='md' p='5'>
 
-<Heading py='2' size={{base: 'sm', md: 'md'}}>Discover Your Dream Property</Heading>
+<Heading py='2' size={{base: 'sm', md: 'md'}} align='center' color='blue'>Discover Your Dream Property</Heading>
 <Flex gap={{base: 3, md: 2}} direction={{base: 'column', md:'row'}} borderRadius='30'>
 
       <Text fontSize="xl" mb="4">Search Filters</Text>
@@ -56,10 +64,26 @@ const SearchFilters = () => {
           <Input placeholder="Max Bath Rooms" value={maxBathRooms} onChange={handleMaxBathRoomsChange} />
         </Box>
         <Box>
-          <Input placeholder="City" value={city} onChange={handleCityChange} />
+          <Select value={city} onChange={handleCityChange} placeholder='Select City'>
+                {
+                    uniqueCities.map((type, index)=> 
+                    <option key={index}>{type}</option>
+                    )
+                }
+         </Select>
+
         </Box>
         <Box>
-          <Input placeholder="State" value={state} onChange={handleStateChange} />
+
+          <Select value={state} onChange={handleStateChange} placeholder='Select State'>
+                {
+                    uniqueStates.map((type, index)=> 
+                    <option key={index}>{type}</option>
+                    )
+                }
+         </Select>  
+
+
         </Box>
         
         <Box>

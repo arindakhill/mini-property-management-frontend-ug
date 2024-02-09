@@ -71,6 +71,7 @@ const HouseItem = ({ house }) => {
         },
       });
       setIsFavorite(!isFavorite);
+      console.log(house);
       toast({
         title: isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
         status: isFavorite ? 'info' : 'success',
@@ -115,7 +116,7 @@ const HouseItem = ({ house }) => {
 
         <Stack justify='center' width="300px" bg="white" boxShadow="xl" borderRadius="xl">
         <Link to={`/property-details/${house.id}`} key={house.id}>
-        <Image src={house.imageLg} h='170' alt='houses' />
+        <Image src={house.imageUrl} h='170' alt='houses' />
         </Link>
 
         <VStack p='4' align='left'>

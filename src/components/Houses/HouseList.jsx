@@ -23,7 +23,7 @@ const HouseList = () => {
     return (
       <Stack maxH='400px'>
         <Heading size="lg" p={{ base: '6', md: '10' }} align="center">
-          Oops... Can try another one?
+       Oops... No properties found. Broaden your search criteria for better luck!
         </Heading>
       </Stack>
     );

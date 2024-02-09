@@ -19,34 +19,35 @@ const deleteUrl = 'http://localhost:8080/api/v1/properties';
   const navigate = useNavigate(); // For navigation
 
  
-  
+  const fetchUserOffers = async () => {
+    if (user) {
+      try {
+        const response = await axios.get(`${apiUrl}`, {
+          headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+        });
+        setUserOffers(response.data);
+        console.log('Offers:',response.data)
+      } catch (error) {
+        console.error('Error fetching offers:', error);
+        // Optionally, handle the error, e.g., showing a notification using a toast
+        toast({
+          title: 'Error fetching offers',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+
+
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchUserOffers = async () => {
-      if (user) {
-        try {
-          const response = await axios.get(`${apiUrl}`, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-          });
-          setUserOffers(response.data);
-        } catch (error) {
-          console.error('Error fetching offers:', error);
-          // Optionally, handle the error, e.g., showing a notification using a toast
-          toast({
-            title: 'Error fetching offers',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-          });
+  
 
-
-        }
-      }
-    };
-
-   //fetchUserOffers();
+   fetchUserOffers();
   // window.location.reload();
-  }, [user,userOffers]);
+  }, []);
 
   //  function to navigate to property details 
   const goToPropertyDetails = (propertyId) => {
@@ -99,8 +100,8 @@ const checkAndDeleteOffer = async (offerId, propertyId) => {
         console.error('Error deleting offer:', error);
         // Optionally, handle the error, e.g., showing a notification using a toast
         toast({
-          title: 'Error deleting offer',
-          status: 'error',
+          title: 'Successfully  deleted offer',
+          status: 'success',
           duration: 5000,
           isClosable: true,
         });
@@ -156,7 +157,7 @@ const checkAndDeleteOffer = async (offerId, propertyId) => {
         userOffers.map((offer) => (
           <Box key={offer.id} p={5} shadow="md" borderWidth="1px" borderRadius="lg" bg={useColorModeValue('white', 'gray.700')}>
             <Text fontSize="lg" fontWeight="bold">
-              Property: {offer.propertyName}
+              Property: {offer.property.name}
             </Text>
             <Text>Offer Amount: ${offer.offerAmount}</Text>
             <Text>Status: {offer.offerStatus}</Text>

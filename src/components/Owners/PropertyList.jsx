@@ -16,17 +16,18 @@ export default function PropertyList(){
     const [selectedProperty, setSelectedProperty] = useState([]);
     const [propertyList, setpropertyList] = useState([]);
     const[deletMsg,setDeleteMsg]=useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     
       useEffect(()=>{
         const dataTable = $('#tblProperties').DataTable(); 
        
        getallPropertiesby();
-      } ,[]);
+      } ,[],isLoading);
 
       
     
       const getallPropertiesby = () => {
-        return axios.get(`http://localhost:8080/api/v1/properties/`, {
+        return axios.get(`http://localhost:8080/api/v1/properties/owner-properties`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -34,11 +35,16 @@ export default function PropertyList(){
         .then(response => {
           const propertyData = response.data;
           setpropertyList(propertyData);
+          setIsLoading(false);
         })
         .catch(error => {
           throw error;
         });
       };
+
+      if (isLoading) {
+        return <div>Loading...</div>;
+      }
    
    
   
@@ -73,8 +79,8 @@ export default function PropertyList(){
                 <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Property name</th>
-                <th scope="col">Owner Firstname</th>
-                <th scope="col">Owner Lastname</th>
+             
+        
                 <th scope="col">ListingType</th>
                 <th scope="col">PropertyType</th>
                 <th scope="col"></th>
@@ -83,13 +89,13 @@ export default function PropertyList(){
             </thead>
             <tbody>
                 {
-                propertyList.map(
+                Array.isArray(propertyList) &&propertyList.map(
                 row=>(
                     <tr key={row.id}>
                     <td>{row.id}</td>
                     <td>{row.name}</td>
-                    <td></td>
-                    <td></td>
+               
+                 
                     <td>{row.listingType}</td>
                     <td>{row.propertyType}</td>
                     <td><button type="button" className="btn btn-success btn-flat"onClick={()=>goToPropertyDetailPage(row.id)} >Details...</button></td>   

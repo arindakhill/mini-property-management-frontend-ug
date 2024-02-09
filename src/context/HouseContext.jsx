@@ -287,7 +287,7 @@ if(size) query += `&size=${size}`;
             setProperty,
             properties,
            
-            isLoading,
+         
             clearFilters,
             listingType,
             setListingType

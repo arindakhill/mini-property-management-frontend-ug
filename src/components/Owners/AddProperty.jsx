@@ -12,6 +12,7 @@ export default function AddProperty(){
     const navigate= useNavigate();
     const token = sessionStorage.getItem('token');
     const [file, setFile] = useState()
+    const preImgUrl = '/src/assets/images/';
 
   
     const saveProperty = (event) => {
@@ -28,7 +29,7 @@ export default function AddProperty(){
         const handleImageChange = (e) => {
           const file = e.target.files[0];
           setFile(e.target.files[0])
-          console.log(file)
+console.log(file)
 
           if (file && e.target.files.length>0) {
             
@@ -41,7 +42,7 @@ export default function AddProperty(){
         const handleImageClick=()=>{
           
             inputRef.current.click();
-            console.log("ckckckckckckckckckckckc");
+console.log("ckckckckckckckckckckckc");
         }
     
         
@@ -69,11 +70,11 @@ export default function AddProperty(){
             bedRooms :form['noofbedrooms'].value, 
               
             address:address1,
-            imageUrl:file.name,
+            imageUrl:preImgUrl+file.name,
             constructionDate: form['constructionDate'].value,
               
           };
-          console.log(data)
+console.log(data)
           const formData = new FormData()
           formData.append("file", file)
     
@@ -102,7 +103,7 @@ export default function AddProperty(){
           .catch(() => setSaveMsg('Record fail to save'));
 
 
-      
+
       
           
       };
@@ -139,7 +140,9 @@ export default function AddProperty(){
                       <label>Property type:</label>
                               <select className="form-control" name={"category"} label={"category"}>
                                   <option>APARTMENT</option>
-                                  <option>CONDOMINIUM</option>
+                                  <option>CONDO</option>
+                                  <option>HOUSE</option>
+                                  <option>MOBILE</option>
                               </select>
                       </div>  
 
