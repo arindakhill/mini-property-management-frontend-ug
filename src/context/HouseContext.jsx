@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import {useToast} from '@chakra-ui/react';
+import { useAuth } from './AuthContext';
 
 
 
@@ -12,10 +13,19 @@ import {useToast} from '@chakra-ui/react';
 export const HouseContext = createContext('');
 
 const HouseProvider = ({children}) =>{
+    const { user } = useAuth();
+
     const toast = useToast();
 //state to store all properties
     const [houses, setHouses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [country, setCountry] = useState('');
+    const [countries, setCountries] = useState([]);
+    const [price, setPrice] = useState('');
+    const [property, setProperty] = useState('');
+    const [properties, setProperties] = useState([]);
+    const [listingType,setListingType] = useState('');
 
 
 
@@ -25,7 +35,23 @@ const HouseProvider = ({children}) =>{
         try {
             const response = await axios.get('http://localhost:8080/api/v1/properties')
             setHouses(response.data.content);
-            console.log(response.data.content);
+            console.log(houses);
+
+
+
+            const allCountries = houses.map(house=>{
+                console.log('counrtry',house.address.country);
+                return house.address.country;
+                
+            });
+
+            const uniqueCountries = [...new Set(allCountries)];
+            setCountries(uniqueCountries);
+    
+            //console.log('unique countries', uniqueCountries);
+
+
+            
             
         }catch (error) {
             console.error('Error fetching properties:', error);
@@ -37,7 +63,7 @@ const HouseProvider = ({children}) =>{
                 isClosable: true,
             });
             
-           setHouses([]);
+          // setHouses([]);
             
         }
         setIsLoading(false);
@@ -47,41 +73,37 @@ const HouseProvider = ({children}) =>{
         fetchProperties();
     }, []);
 
-
-
-
-
-
-    
-    const [country, setCountry] = useState('');
-    const [countries, setCountries] = useState([]);
-    const [price, setPrice] = useState('');
-    const [property, setProperty] = useState('');
-    const [properties, setProperties] = useState([]);
-    const [listingType,setListingType] = useState('');
-   
-    
+    //fetch all property types
     useEffect(() => {
-        const allCountries = houses.map(house=>{
-            return house.address.country;
-        })
+        const allCountries = houses.map(house => house.address.country);
         const uniqueCountries = [...new Set(allCountries)];
         setCountries(uniqueCountries);
-    }, []);
-
-    useEffect(() => {
-        const allPropertyTypes = houses.map(house=>{
-            return house.properyType;
-        })
+      
+        const allPropertyTypes = houses.map(house => house.propertyType);
         const uniquePropertyTypes = [...new Set(allPropertyTypes)];
         setProperties(uniquePropertyTypes);
-    }, []);
+      }, [houses]); // This effect depends on 'houses' and will run after 'houses' is updated.
+      
+
+
+
+
+
+
+
+    
+   
+    
+  
 
         //Clear Filters
         const clearFilters = () => {
             setCountry('');
             setPrice('');
             setProperty('');
+        
+                fetchProperties();
+          
             // Add any other states you want to reset
         };
 
@@ -161,35 +183,31 @@ const HouseProvider = ({children}) =>{
 
 //revised search handler
 
-const searchHandler = () => {
+// Revised search handler
+  const searchHandler = () => {
     setIsLoading(true);
-  
+
     // Checking selection
-    const isDefault = (str) => {
-      return str.split(' ').includes('Select');
-    };
-  
-    // Parse price range from the price state
-    const priceRange = price.split('-').map(s => s.trim());
-    const minPrice = priceRange.length > 1 ? parseInt(priceRange[0]) : 0;
-    const maxPrice = priceRange.length > 1 ? parseInt(priceRange[1]) : Infinity;
-  
+    const isDefault = (str) => str === '' || str.includes('Select');
+    const priceRange = price.split('-').map(s => parseInt(s.trim()));
+    const minPrice = priceRange[0] || 0;
+    const maxPrice = priceRange[1] || Infinity;
+
     const filteredHouses = houses.filter(house => {
       const housePrice = parseInt(house.price);
-      const matchesCountry = isDefault(country) || house.country === country;
+      const matchesCountry = isDefault(country) || house.address.country === country;
       const matchesPrice = housePrice >= minPrice && housePrice <= maxPrice;
-      const matchesPropertyType = isDefault(property) || house.type === property;
+      const matchesPropertyType = isDefault(property) || house.propertyType === property;
       const matchesListingType = isDefault(listingType) || house.listingType === listingType;
-  
-      // Return the house if it matches all the selected filters
+
       return matchesCountry && matchesPrice && matchesPropertyType && matchesListingType;
     });
-  
-    // Update the houses state with the filtered houses
+
+    // Ensure filteredHouses is used to update the UI
     setTimeout(() => {
-      filteredHouses.length > 0 ? setHouses(filteredHouses) : setHouses([]);
+      setHouses(filteredHouses);
       setIsLoading(false);
-    }, 1000);
+    }, 500); // Short delay to simulate asynchronous data fetching
   };
   
 
