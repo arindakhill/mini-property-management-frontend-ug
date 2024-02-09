@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function PropertyDetail(){
   const { state } = useLocation();
   const prop = state?.prop;
+  const token = sessionStorage.getItem('token');
   const navigate= useNavigate();
 
+
+  console.log(prop);
   function backToList(){
 
     navigate('/properties');
@@ -21,18 +24,20 @@ export default function PropertyDetail(){
                <h1 className="mx-auto">Proprty Details page</h1><hr/>
 
                     <p><strong>ID:</strong> {prop.id}</p>
-                    <p><strong>Category:</strong> {prop.category}</p>
-                    <p><strong>Type:</strong> {prop.type}</p>
-                    <p><strong>Country:</strong> {prop.country}</p>
-                    <p><strong>Address Line 1:</strong> {prop.address}</p>
-                    <p><strong>State:</strong> {prop.state}</p>
-                    <p><strong>City:</strong> {prop.city}</p>
-                    <p><strong>Postal Code:</strong> {prop.postalCode}</p>
-                    <p><strong>Amount:</strong> {prop.amount}</p>
+                    <p><strong>Name:</strong> {prop.name}</p>
                     <p><strong>Description:</strong> {prop.description}</p>
-                    <p><strong>Bathrooms Number:</strong> {prop.bathroomsNumber}</p>
-                    <p><strong>Bedrooms Number:</strong> {prop.bedroomsNumber}</p>
-
+                    <p><strong>Price:</strong> {prop.price}</p>
+                    <p><strong>Staus:</strong> {prop.status}</p>
+                    <p><strong>Listing type:</strong> {prop.listingType}</p>
+                    <p><strong>Proprty type:</strong> {prop.state}</p>
+                    <p><strong>Number of bathroms:</strong> {prop.bathRooms}</p>
+                    <p><strong>Number of bedrooms:</strong> {prop.bedRooms}</p>
+                    <p><strong>Address line1:</strong> {prop.address.line1}</p>
+                    <p><strong>Address line2:</strong> {prop.address.line2}</p>
+                    <p><strong>City:</strong> {prop.address.city}</p>
+                    <p><strong>Postal code:</strong> {prop.address.postalCode}</p>
+                    <p><strong>State:</strong> {prop.address.state}</p>
+                    <p><strong>Country:</strong> {prop.address.country}</p>
                 
             <div className="form-group d-flex">
             <div className='me-2'>

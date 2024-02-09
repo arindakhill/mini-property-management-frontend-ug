@@ -2,66 +2,38 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import $ from 'jquery'
+import axios from "axios";
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 import 'datatables.net-bs5'
 export default function PropertyOffers(){
     const navigate=useNavigate();
-    const [selectedProperty, setSelectedProperty] = useState([]);
+    const [offerList, setOffer] = useState([]);
     const[deletMsg,setDeleteMsg]=useState(null);
-    const propertyPayment = [
-        {
-            id: 1,
-            propertyName: 'Cozy Apartment',
-            address: '123 Main St, New York City, USA',
-            ownerFirstName: 'John',
-            ownerLastName: 'Doe',
-            amount: '$1500',
-            orderDate: '2024-02-06',
-            status: 'available',
-            category:'rent'
-        },
-        {
-            id: 2,
-            propertyName: 'Luxury Condo',
-            address: '456 Maple Ave, Toronto, Canada',
-            ownerFirstName: 'Jane',
-            ownerLastName: 'Smith',
-            amount: '$300000',
-            orderDate: '2024-02-05',
-            status: 'pending',
-            category:'sale'
-        },
-        {
-            id: 3,
-            propertyName: 'Charming House',
-            address: '789 Elm St, London, UK',
-            ownerFirstName: 'James',
-            ownerLastName: 'Brown',
-            amount: '£2000',
-            orderDate: '2024-02-04',
-            status: 'contigent',
-            category:'rent'
-        },
-        {
-            id: 4,
-            propertyName: 'Modern Townhouse',
-            address: '567 Oak St, Los Angeles, USA',
-            ownerFirstName: 'Jessica',
-            ownerLastName: 'Johnson',
-            amount: '$500000',
-            orderDate: '2024-02-03',
-            status: 'available',
-            category:'sale'
-        }
-        
-    ];
+    const token = sessionStorage.getItem('token');
+    useEffect(()=>{
 
-      useEffect(()=>{
+        $('#tbloffers').DataTable();
+        getAllProperiesOffers();
 
-         $('#tbloffers').DataTable();
+     },[]);
 
+    
+     const getAllProperiesOffers = () => {
+      return axios.get(`http://localhost:8080/api/v1/properties/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        const propertyData = response.data;
+        setpropertyList(propertyData);
+      })
+      .catch(error => {
+        throw error;
       });
+    };
 
+   
    
     const   goToPropertyUpdateOffer=(oId)=>{
         const selectedOffer= propertyPayment.find((offer)=>offer.id===oId);
@@ -98,7 +70,7 @@ export default function PropertyOffers(){
             </thead>
             <tbody>
                 {
-                propertyPayment.map(
+                offerList.map(
                 row=>(
                     <tr key={row.id}>
                     <td>{row.id}</td>

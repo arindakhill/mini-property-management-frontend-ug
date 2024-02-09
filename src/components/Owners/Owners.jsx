@@ -4,58 +4,37 @@ import { useEffect } from "react";
 import $ from 'jquery'
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 import 'datatables.net-bs5'
+import axios from "axios";
 export default function Owners(){
-
+   const token = sessionStorage.getItem('token');
     const navigate=useNavigate();
-    const[ownerArrist,setownerArrist]= useState([]);
+    const[ownerList,setownerList]= useState([]);
     const[deletMsg,setDeleteMsg]=useState(null);
-    const ownersList = [
-        {
-          id:"1",
-          firstName: "John",
-          lastName: "Smith",
-          email: "john.smith@email.com",
-          username: "johnsmith123",
-          status: "active"
-        },
-        {
-          id:"2",
-          firstName: "Emily",
-          lastName: "Johnson",
-          email: "emily.j@email.com",
-          username: "emily.johnson",
-          status: "pending"
-        },
-        {
-          id:"3",
-          firstName: "Michael",
-          lastName: "Davis",
-          email: "michael.davis@email.com",
-          username: "mikedavis45",
-          status: "pending"
-        },
-        {
-          id:"4",
-          firstName: "Sarah",
-          lastName: "Brown",
-          email: "sarah.brown@email.com",
-          username: "sarahb",
-          status: "active"
-        },
-        {
-          id:"5",
-          firstName: "Kevin",
-          lastName: "Miller",
-          email: "kevin.m@email.com",
-          username: "kevinm123",
-          status: "active"
-        }
-      ];
-
+    
+   
      useEffect(()=>{
-        ()=>showAllOwners(),[]
+        getAllOwners();
         const dataTable = $('#tblowners').DataTable();  
-     });
+       
+     },[]);
+     const getAllOwners = () => {
+      
+      return axios.get('http://localhost:8080/api/v1/owners/all', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(response => {
+          const ownerData = response.data;
+          setownerList(ownerData);
+          console.log(ownerData);
+          
+        })
+        .catch(error => {
+          throw error;
+        });
+      };
+   
       
       /*function showAllOwners(){
               getAllOwnersApi()
@@ -91,8 +70,8 @@ export default function Owners(){
             }*/
             const showOwnerDetails= (oid)=>{
 
-              const selectedOwner = ownersList.find(owner => owner.id === oid);
-              setownerArrist(oid);
+              const selectedOwner = ownerList.find(owner => owner.id === oid);
+              setownerList(oid);
                
               navigate(`/owner-detail/${oid}`,{ state: { owner: selectedOwner } });
             
@@ -107,7 +86,7 @@ export default function Owners(){
 
        <h1 style={{ textAlign: 'center', fontSize:'25px' }}>List of  owners</h1><hr />
         {deletMsg && <div className="alert alert-warning">{deletMsg}</div>}
-      <div class="table-responsive">
+      <div className="table-responsive">
        <table className="table" id="tblowners">
      
        <thead>
@@ -116,7 +95,6 @@ export default function Owners(){
            <th scope="col">Firstname</th>
            <th scope="col">Lastname</th>
            <th scope="col">Email</th>
-           <th scope="col">Username</th>
            <th scope="col">Status</th>
            <th scope="col"></th>
            <th scope="col"></th>
@@ -125,15 +103,14 @@ export default function Owners(){
        </thead>
        <tbody>
          {
-         ownersList.map(
+         ownerList.map(
            row=>(
              <tr key={row.id}>
                <td>{row.id}</td>
-               <td>{row.firstName}</td>
-               <td>{row.lastName}</td>
-               <td>{row.email}</td>
-               <td>{row.username}</td>
-               <td>{row.status}</td>
+               <td>{row.user.firstname}</td>
+               <td>{row.user.lastname}</td>
+               <td>{row.user.email}</td>
+               <td>{row.enabled}</td>
                <td><button type="button" className="btn btn-success btn-flat" >Activate</button></td>
                <td><button type="button" className="btn btn-warning">Deactivate</button></td>
                <td><button type="button" className="btn btn-warning" onClick={()=>showOwnerDetails(row.id)}>Details</button></td>
