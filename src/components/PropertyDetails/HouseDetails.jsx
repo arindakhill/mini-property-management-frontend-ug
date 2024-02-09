@@ -150,7 +150,9 @@ const unlikeProperty = async () => {
           
 
                {/* Like/Unlike button */}
-            <IconButton
+
+           { user && user.role=='CUSTOMER' &&
+           <IconButton
         aria-label={isLiked ? 'Unlike' : 'Like'}
         icon={isLiked ? <StarIcon color="yellow.400" /> : <Text fontSize="20px">☆</Text>}
         isRound={true}
@@ -159,6 +161,7 @@ const unlikeProperty = async () => {
         colorScheme="yellow"
         onClick={isLiked ? unlikeProperty : likeProperty}
       />
+  }
 
 
 

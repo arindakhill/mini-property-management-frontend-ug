@@ -21,10 +21,13 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
 
 
-const Form = ({ searchedHouse, user }) => {
+const Form = ({ searchedHouse }) => {
+
+  const {user} = useAuth();
 // Construct the default message only if user and searchedHouse are available
 const defaultMessage = user && searchedHouse
   ? `Hello, I am interested in your property located at ${searchedHouse.address.city}. My name is ${user.firstname} ${user.lastname} and I can be reached on tel: ${user.phoneNumber}.`
@@ -199,6 +202,7 @@ const placeOffer = async (offerDetails) => {
 
 
   return (
+    user&&user.role==='CUSTOMER' &&
     <>
       <VStack
         spacing={4}
@@ -247,10 +251,10 @@ const placeOffer = async (offerDetails) => {
           <ModalCloseButton />
           <ModalBody>
             <Text mb={4}>Suggested amount: $ {searchedHouse.price}</Text>
-            <NumberInput min={0} onChange={(valueString) => setOffer(valueString)}>
+            <NumberInput min={0} onChange={(valueString) => setOffer(valueString)} required>
               <NumberInputField placeholder="Enter your offer amount" />
             </NumberInput>
-            <Select placeholder="Select offer type" mt={4} onChange={(e) => setOfferType(e.target.value)}>
+            <Select placeholder="Select offer type" mt={4} onChange={(e) => setOfferType(e.target.value)} required>
               <option value="CASH">Cash</option>
               <option value="DOWNPAYMENT">Down Payment</option>
               <option value="CREDIT">Credit</option>
@@ -266,6 +270,7 @@ const placeOffer = async (offerDetails) => {
       </Modal>
     </>
   );
+
 };
 
 export default Form;

@@ -17,6 +17,9 @@ import { BiPlus } from "react-icons/bi";
 import { bannerData } from "../data";
 import Apartment1Lg from "../assets/images/apartments/a1lg.png";
 import Apartment6Lg from "../assets/images/apartments/a6lg.png";
+import { AuthProvider, useAuth } from "../context/AuthContext";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 
 
@@ -39,7 +42,8 @@ const glowing = keyframes`
 
 
 const Banner = ({searchRef}) => {
-
+  
+const { user } = useAuth();
 
   const handleScrollToSearch = () => {
     searchRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -49,6 +53,8 @@ const Banner = ({searchRef}) => {
 // Responsiveness settings
 const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
 
+const isOwner = user && user.role == "OWNER";
+const isAdmin = user && user.role == "ADMIN";
 
 
   return (
@@ -67,13 +73,39 @@ const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
           borderRadius="2xl"
           spacing ="20"
         >
-          <Heading fontSize={{ base: "xl", sm: "2xl", md: "5xl" }}>
-            Your Dream Home Awaits.
-          </Heading>
-          <Text fontSize="xl" >
-          Discover a place where every detail feels like it's tailor-made for you - because it is.
-           Explore our curated listings to find a home that resonates with your lifestyle and lets you live the life you've always imagined.
-          </Text>
+        <Heading fontSize={{ base: "xl", sm: "2xl", md: "5xl" }} color="purple.600" fontWeight="bold" textAlign="center" textTransform="uppercase">
+  {isOwner ? 
+  'Sell Your Property with Confidence' 
+  : isAdmin ?
+  'Discover a Comprehensive Platform for Property Management'
+
+  :
+
+  'Find Your Dream Home Today'
+  }
+</Heading>
+
+<Text fontSize="xl" color="lilac" textAlign="center" fontWeight="bold">
+  {(!isOwner && !isAdmin) ? (
+    <>
+      Discover a place where every detail feels <span style={{ color: "blue" }}>tailor-made for you</span> - because it is. Explore our curated listings to find homes that <span style={{ color: "blue" }}>embody modern living</span> and reflect the aspirations of discerning buyers like yourself. With our diverse range of properties, you can turn your dream of homeownership into a reality.
+    </>
+  ) : isOwner?(
+    <>
+      Welcome to your platform for selling properties effortlessly. Our streamlined process and expert guidance ensure that your property stands out in the market, attracting the right buyers and maximizing its value. List your property with us today and embark on a journey to a successful sale.
+    </>
+  ) : (
+    <>  
+      As an admin, you have the power to manage the platform and ensure that all users have a seamless experience. You can view and manage all properties and users, and make any necessary changes to the platform. Your role is crucial in maintaining the integrity and functionality of the platform.
+    </>
+  )
+
+}
+</Text>
+
+
+
+
          
 
           <HStack spacing="5">
@@ -100,8 +132,7 @@ const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
           
 
 
-          <Button
-        onClick={handleScrollToSearch}
+       { isOwner?  <Link to='/owner'> <Button
         size={buttonSize}
         bg="teal.300"
         color="white"
@@ -112,9 +143,43 @@ const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
           animation: `${glowing} 2.5s ease-in-out infinite`,
         }}
       >
-        Explore Listings
+        Empower your property sale
       </Button>
+</Link>
 
+      :
+      isAdmin ?
+       <Button
+       onClick={handleScrollToSearch}
+      size={buttonSize}
+      bg="teal.300"
+      color="lilac"
+      _hover={{
+        bg: 'blue.400',
+      }}
+      sx={{
+        animation: `${glowing} 2.5s ease-in-out infinite`,
+      }}
+    >
+      Stream line property management
+    </Button>
+    : 
+    <Button
+    onClick={handleScrollToSearch}
+      size={buttonSize}
+      bg="blue.300"
+      color="blue.900"
+      _hover={{
+        bg: 'blue.400',
+      }}
+      sx={{
+        animation: `${glowing} 2.5s ease-in-out infinite`,
+      }}
+    >
+      Find Your Home
+    </Button>
+
+}
 
 
 
