@@ -150,7 +150,7 @@ const unlikeProperty = async () => {
 
       <Stack direction={{base:'column', lg: 'row'}} gap='40' align='flex-start'>
         <VStack align='left' maxW='840px'>
-          <Image src={searchedHouse.imageLg} alt='house' />
+          <Image src={searchedHouse.imageUrl} alt='house' />
 
           <Stack py='10px' spacing={{sm: '3', md: '5'}} direction={{base: 'column', md: 'row'}}>
             <HStack>
