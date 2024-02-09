@@ -28,6 +28,7 @@ export default function AddProperty(){
         const handleImageChange = (e) => {
           const file = e.target.files[0];
           setFile(e.target.files[0])
+          console.log(file)
 
           if (file && e.target.files.length>0) {
             
@@ -40,6 +41,7 @@ export default function AddProperty(){
         const handleImageClick=()=>{
           
             inputRef.current.click();
+            console.log("ckckckckckckckckckckckc");
         }
     
         
@@ -71,9 +73,21 @@ export default function AddProperty(){
             constructionDate: form['constructionDate'].value,
               
           };
+          console.log(data)
           const formData = new FormData()
           formData.append("file", file)
     
+
+          axios.post("http://localhost:8080/api/v1/properties/create", data, {
+            
+          headers: {
+              Authorization: `Bearer ${token}`,
+          }
+           })
+          .then(() => setSaveMsg('Record successfully saved')
+       
+            )
+          .catch(() => setSaveMsg('Record fail to save'));
 
           axios.post("http://localhost:8080/api/files/upload", formData, {
             
@@ -89,6 +103,7 @@ export default function AddProperty(){
 
 
       
+      
           
       };
       
@@ -99,7 +114,7 @@ export default function AddProperty(){
         <div className="container">
 
          
-        <form ref={propertyFormRef} onSubmit={saveProbToDb} >
+        <form ref={propertyFormRef} onSubmit={saveProbToDb }>
             <div className="card card mx-auto mb-3">
             {saveMsg && <div className="alert alert-success">{saveMsg}</div>}
             <div className="card-body">
@@ -109,7 +124,7 @@ export default function AddProperty(){
 
                     <div className="form-group col-sm-4">
                           <label>Property name</label>
-                          <input type="text" className="form-control col-sm-6 mb-3" name={"name"} label={"name"} valu />
+                          <input type="text" className="form-control col-sm-6 mb-3" name={"name"} label={"name"}  />
                       </div>
 
                       <div className="form-group  col-sm-4 mb-3">
