@@ -5,6 +5,7 @@ import { HouseContext } from '../../context/HouseContext';
 import LocationFilter from "./LocationFilter";
 import PriceFilter from "./PriceFilter";
 import PropertyTypeFilter from "./PropertyTypeFilter";
+import ListingTypeFilter from "./ListingTypeFilter";
 
 const Search = () => {
 
@@ -21,6 +22,7 @@ const Search = () => {
         <LocationFilter />
         <PropertyTypeFilter />
         <PriceFilter />
+        <ListingTypeFilter />
         <Button onClick={searchHandler} p={{base: 3, md: 2}} size="100%">Search</Button>
         <Button onClick={clearFilters} p={{base: 3, md: 2}} size="100%" colorScheme='red'>Clear</Button>
       </Flex>

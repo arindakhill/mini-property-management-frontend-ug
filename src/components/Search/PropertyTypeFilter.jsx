@@ -4,16 +4,20 @@ import { HouseContext } from '../../context/HouseContext';
 
 const PropertyTypeFilter = () => {
 
-  const {property, setProperty, properties} = useContext(HouseContext);
+  const {houses, property, setProperty, properties} = useContext(HouseContext);
 
   const propertyTypeHandler = (event)=> {
     setProperty(event.target.value);
   }
 
+  const allPropertyTypes = houses.map(house => house.propertyType);
+    const uniquePropertyTypes = [...new Set(allPropertyTypes)];
+
+
   return (
     <Select value={property} onChange={propertyTypeHandler} placeholder='Select Type'>
       {
-        properties.map((type, index)=> 
+        uniquePropertyTypes.map((type, index)=> 
           <option key={index}>{type}</option>
         )
       }

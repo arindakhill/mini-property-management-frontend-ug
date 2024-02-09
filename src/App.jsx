@@ -36,6 +36,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 //Admin related components
 import Customers from './components/Admin/Customers';
+import FavoritesList from './components/Houses/FavoritesList';
 
 
 
@@ -59,6 +60,7 @@ const App = () => {
           <Route path="/manage-account" element={<ManageAccount/>}/>
 
           <Route path="/offer-history" element={<OfferHistory />} />
+          <Route path="/favorites" element={<FavoritesList/>}/>
 
 
 

@@ -86,7 +86,8 @@ const isCurrentUserOwner = user && user.role === 'OWNER';
 
 </Flex>
 
-       
+  
+        
 
         {user ? (
           <Flex justifyContent="right" w="100%" align="center">
@@ -133,7 +134,7 @@ const isCurrentUserOwner = user && user.role === 'OWNER';
               <Button onClick={goToOfferHistoryCustomer} >View Offer History</Button>
               ):
               (
-                <Button onClick={goToManageOnwners} >Manage All users</Button>
+                <Button onClick={goToManageOnwners} >View Admin Dashboard</Button>
 
             )
              )
