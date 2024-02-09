@@ -3,6 +3,8 @@ import Search from '../components/Search/Search'
 import HouseList from '../components/Houses/HouseList';
 import {useRef} from 'react'
 
+
+
 const Home = () => {
 
   const searchRef = useRef(null);
