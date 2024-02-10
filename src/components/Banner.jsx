@@ -21,6 +21,11 @@ import Apartment3Lg from "../assets/images/apartments/a3lg.png";
 import Apartment4Lg from "../assets/images/apartments/a4lg.png";
 import Apartment5Lg from "../assets/images/apartments/a5lg.png";
 import Apartment6Lg from "../assets/images/apartments/a6lg.png";
+import House1Lg from '../assets/images/houses/house1lg.png';
+import House2Lg from '../assets/images/houses/house2lg.png';
+import House3Lg from '../assets/images/houses/house3lg.png';
+import House4Lg from '../assets/images/houses/house4lg.png';
+import House5Lg from '../assets/images/houses/house5lg.png';
 import { AuthProvider, useAuth } from "../context/AuthContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
@@ -191,52 +196,153 @@ const isNotLoggedIn = !user;
 
 {user && user.role== 'CUSTOMER' && <Link to='/favorites'>  <Button colorScheme='teal' alignSelf={true}>My Favourites</Button>  </Link>}
 
-
-
-
         </VStack>
+
+
+
+{/**No one logged in */}
 
         <VStack justify='center'>
-
-  {/**Admin image to render */}
-
-
-
-
- {/**Customer image to render */}
- 
-
- {/**Owner image to render */}
-
-
- {/**!user image to render */}
-  {isNotLoggedIn &&
-            <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }}>
-              <Image
-                src={Apartment1Lg}
-                alt="house"
-                h='200%'
-                objectFit='cover'
-              />
-            </Box>
+{isNotLoggedIn &&
+          <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }} >
+            <Image
+              src={Apartment1Lg}
+              alt="house"
+              h='200%'
+              objectFit='cover'
+            />
+          </Box>
 }
 {isNotLoggedIn &&
-            <Box h='50%' display={{ base: "none", xl: "block" }}>
-              <Image
-                src={Apartment2Lg}
-                alt="house"
-                style={{height: '100%', width: '200%', objectFit: 'contain'}}
-              />
-            </Box>
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={Apartment1Lg}
+              alt="house"
+              style={{height: '100%', width: '100%', objectFit: 'contain'}}
+            />
+          </Box>
+}
+{isNotLoggedIn &&
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={House1Lg}
+              alt="house"
+              style={{height: '100%', width: '200%', objectFit: 'contain'}}
+            />
+          </Box>
 }
 
 
- 
+
+{/**Customer logged */}
+{isCustomer &&
+          <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }} >
+            <Image
+              src={House2Lg}
+              alt="house"
+              h='200%'
+              objectFit='cover'
+            />
+          </Box>
+}
+{isCustomer &&
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={House2Lg}
+              alt="house"
+              style={{height: '100%', width: '100%', objectFit: 'contain'}}
+            />
+          </Box>
+}
+{isCustomer &&
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={Apartment3Lg}
+              alt="house"
+              style={{height: '100%', width: '200%', objectFit: 'contain'}}
+            />
+          </Box>
+}
+
+
+
+
+{/**Owner logged */}
+{isOwner &&
+          <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }} >
+            <Image
+              src={Apartment2Lg}
+              alt="house"
+              h='200%'
+              objectFit='cover'
+            />
+          </Box>
+}
+{isOwner &&
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={House3Lg}
+              alt="house"
+              style={{height: '100%', width: '100%', objectFit: 'contain'}}
+            />
+          </Box>
+}
+{isOwner &&
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={Apartment6Lg}
+              alt="house"
+              style={{height: '100%', width: '200%', objectFit: 'contain'}}
+            />
+          </Box>
+}
+
+
+
+
+{/**Admin logged */}
+{isAdmin &&
+          <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }} >
+            <Image
+              src={Apartment5Lg}
+              alt="house"
+              h='200%'
+              objectFit='cover'
+            />
+          </Box>
+}
+{isAdmin &&
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={House4Lg}
+              alt="house"
+              style={{height: '100%', width: '100%', objectFit: 'contain'}}
+            />
+          </Box>
+}
+{isAdmin &&
+          <Box h='50%' display={{ base: "none", xl: "block" }}>
+            <Image
+              src={House2Lg}
+              alt="house"
+              style={{height: '100%', width: '200%', objectFit: 'contain'}}
+            />
+          </Box>
+}
 
 
 
 
         </VStack>
+    
+
+
+ 
+
+
+
+
+ 
 
 
     

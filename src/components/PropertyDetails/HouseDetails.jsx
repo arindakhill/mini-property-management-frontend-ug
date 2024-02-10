@@ -140,8 +140,10 @@ const unlikeProperty = async () => {
         </Box>
         
         <HStack>
-          <Text px='3' borderRadius='full' bg='green.300'>{searchedHouse.listingType}</Text>
+          <Text px='5' borderRadius='full' bg='green.300' fontWeight="extrabold">{'for '+searchedHouse.listingType}</Text>
           <Text px='3' borderRadius='full' bg='purple.300'>{searchedHouse.address.country}</Text>
+          <Text px='3' borderRadius='full' bg='teal.300'>{searchedHouse.address.state}</Text>
+          <Text px='3' borderRadius='full' bg='teal.300'>{searchedHouse.address.city}</Text>
           <Text fontWeight="extrabold" fontSize="20px" color="pink.500">$ {searchedHouse.price}</Text>
         </HStack>
 

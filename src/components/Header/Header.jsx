@@ -35,7 +35,7 @@ const handleListingTypeChange = (listingType) => {
 
 
 
-  const handleSignIn = async (credentials) => {
+   const handleSignIn = async (credentials) => {
     try {
       await signIn(credentials);
       onSignInClose();

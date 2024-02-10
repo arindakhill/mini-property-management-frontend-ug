@@ -157,12 +157,31 @@ const checkAndDeleteOffer = async (offerId, propertyId) => {
         userOffers.map((offer) => (
           <Box key={offer.id} p={5} shadow="md" borderWidth="1px" borderRadius="lg" bg={useColorModeValue('white', 'gray.700')}>
             <Text fontSize="lg" fontWeight="bold">
-              Property: {offer.property.name}
+              Property Name: {offer.property.name}
             </Text>
             <Text>Offer Amount: ${offer.offerAmount}</Text>
-            <Text>Status: {offer.offerStatus}</Text>
+         
+            <Text>
+                Status:
+                <Text
+                  as="span"
+                  px="2"
+                  py="1"
+                  borderRadius="lg"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  backgroundColor={offer.offerStatus === 'ACCEPTED' ? 'green.500' :
+                                  offer.offerStatus === 'REJECTED' ? 'red.500' :
+                                  'yellow.500'} // Using Chakra UI color scheme
+                  color="white"
+                >
+                  {offer.offerStatus}
+                </Text>
+              </Text>
+
             <Text>Type: {offer.offerType}</Text>
             <Text>Date: {new Date(offer.offerDate).toLocaleDateString()}</Text>
+            
 
 <HStack>
             <Button
@@ -177,9 +196,10 @@ const checkAndDeleteOffer = async (offerId, propertyId) => {
               Update Offer
             </Button>
 
-            <Button  colorScheme="red" onClick={() => { setSelectedOffer(offer); console.log(selectedOffer);checkAndDeleteOffer(selectedOffer.id,selectedOffer.property.id) }}>
+            { offer.property.status !== 'CONTINGENT' && <Button  colorScheme="red" onClick={() => { setSelectedOffer(offer); console.log(selectedOffer);checkAndDeleteOffer(selectedOffer.id,selectedOffer.property.id) }}>
               Cancel Offer
             </Button>
+}
 
             </HStack>
           </Box>

@@ -67,7 +67,7 @@ if(size) query += `&size=${size}`;
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/properties${query}`)
             setHouses(response.data.content);
-            console.log(houses);
+            console.log(response.data.content);
 
 
 
