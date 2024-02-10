@@ -16,6 +16,10 @@ import { BiPlus } from "react-icons/bi";
 
 import { bannerData } from "../data";
 import Apartment1Lg from "../assets/images/apartments/a1lg.png";
+import Apartment2Lg from "../assets/images/apartments/a2lg.png";
+import Apartment3Lg from "../assets/images/apartments/a3lg.png";
+import Apartment4Lg from "../assets/images/apartments/a4lg.png";
+import Apartment5Lg from "../assets/images/apartments/a5lg.png";
 import Apartment6Lg from "../assets/images/apartments/a6lg.png";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 import { useContext } from "react";
@@ -55,6 +59,8 @@ const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
 
 const isOwner = user && user.role == "OWNER";
 const isAdmin = user && user.role == "ADMIN";
+const isCustomer = user && user.role == "CUSTOMER";
+const isNotLoggedIn = !user;
 
 
   return (
@@ -191,28 +197,45 @@ const isAdmin = user && user.role == "ADMIN";
         </VStack>
 
         <VStack justify='center'>
-          <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }} >
-            <Image
-              src={Apartment1Lg}
-              alt="house"
-              h='200%'
-              objectFit='cover'
-            />
-          </Box>
-          <Box h='50%' display={{ base: "none", xl: "block" }}>
-            <Image
-              src={Apartment1Lg}
-              alt="house"
-              style={{height: '100%', width: '100%', objectFit: 'contain'}}
-            />
-          </Box>
-          <Box h='50%' display={{ base: "none", xl: "block" }}>
-            <Image
-              src={Apartment6Lg}
-              alt="house"
-              style={{height: '100%', width: '200%', objectFit: 'contain'}}
-            />
-          </Box>
+
+  {/**Admin image to render */}
+
+
+
+
+ {/**Customer image to render */}
+ 
+
+ {/**Owner image to render */}
+
+
+ {/**!user image to render */}
+  {isNotLoggedIn &&
+            <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }}>
+              <Image
+                src={Apartment1Lg}
+                alt="house"
+                h='200%'
+                objectFit='cover'
+              />
+            </Box>
+}
+{isNotLoggedIn &&
+            <Box h='50%' display={{ base: "none", xl: "block" }}>
+              <Image
+                src={Apartment2Lg}
+                alt="house"
+                style={{height: '100%', width: '200%', objectFit: 'contain'}}
+              />
+            </Box>
+}
+
+
+ 
+
+
+
+
         </VStack>
 
 
