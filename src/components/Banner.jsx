@@ -197,7 +197,6 @@ const isNotLoggedIn = !user;
 {user && user.role== 'CUSTOMER' && <Link to='/favorites'>  <Button colorScheme='teal' alignSelf={true}>My Favourites</Button>  </Link>}
 
         </VStack>
-
         <VStack justify='center'>
 {isNotLoggedIn &&
           <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }} >
