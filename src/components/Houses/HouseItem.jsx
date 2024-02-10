@@ -27,6 +27,7 @@ const HouseItem = ({ house }) => {
   const { user } = useAuth(); // Corrected to useAuth()
   const [isFavorite, setIsFavorite] = useState(false);
   const styles = useStyleConfig("HouseItem");
+  const isCustomer = user && user.role === 'CUSTOMER';
 
   // Function to fetch favorite status
   const fetchFavoriteStatus = async () => {
@@ -91,7 +92,7 @@ const HouseItem = ({ house }) => {
 
   // Fetch the favorite status when the component mounts
   useEffect(() => {
-    fetchFavoriteStatus();
+   if(isCustomer) fetchFavoriteStatus();
   }, [house.id, user]);
 
 
@@ -152,12 +153,13 @@ const HouseItem = ({ house }) => {
                 <Text fontSize="12px">{house.bathRooms}</Text>
             </HStack>
 
-            <Button leftIcon={isFavorite ? <StarIcon /> : <StarIcon />} 
+           { isCustomer && <Button leftIcon={isFavorite ? <StarIcon /> : <StarIcon />} 
                 colorScheme="yellow" size="sm" 
                 onClick={handleFavoriteToggle}
                 isDisabled={!user}>
           {isFavorite ? 'Favorited' : 'Add to Favorites'}
         </Button>
+        }
 
            
             </HStack>

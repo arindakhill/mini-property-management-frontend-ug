@@ -22,16 +22,19 @@ import {
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import SignInModal from '../auth/SignInModal';
+import Agent1 from '../../assets/images/agents/agent1.png';
+
 
 
 
 const Form = ({ searchedHouse }) => {
 
-  const {user} = useAuth();
+  const {user, signIn} = useAuth();
 // Construct the default message only if user and searchedHouse are available
 const defaultMessage = user && searchedHouse
   ? `Hello, I am interested in your property located at ${searchedHouse.address.city}. My name is ${user.firstname} ${user.lastname} and I can be reached on tel: ${user.phoneNumber}.`
-  : '';
+  : 'Please Sign in or Sign up if you are new to send a message to the owner.'
 
 
 
@@ -39,6 +42,7 @@ const defaultMessage = user && searchedHouse
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [offer, setOffer] = useState('');
   const [offerType, setOfferType] = useState('');
+const[isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const toast = useToast();
 
    // New state to track if the user can make an offer
@@ -46,6 +50,7 @@ const defaultMessage = user && searchedHouse
    const navigate = useNavigate();
    const apiUrl = 'http://localhost:8080/api/v1/properties';
    const token = sessionStorage.getItem('token'); // Retrieve the token
+   const [hasMadeOffer, setHasMadeOffer] = useState(false);
 
    useEffect(() => {
     const checkIfCanMakeOffer = async () => {
@@ -80,6 +85,27 @@ const defaultMessage = user && searchedHouse
    
 
 
+//handle signin for offer
+const handleSignInForOffer = async (credentials) => {
+  try{  
+    await signIn(credentials);
+   
+    setIsSignInModalOpen(false);
+  }catch(error){
+    console.error('Error signing in:', error);
+    toast({
+      title: 'Error signing in',
+      description: 'There was an error signing in. Please try again later.',
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+}
+
+
+
+
   const handlePlaceOffer = () => {
 
 if(!user){
@@ -89,11 +115,32 @@ if(!user){
     duration: 5000,
     isClosable: true,
   });
-  navigate('/signin');
+  setIsSignInModalOpen(true);
+  return;
+  //navigate('/signin');
 }
 
 
 
+
+
+//only customers can make offers
+if (user.role !== 'CUSTOMER') {
+  toast({
+    title: 'Access Denied',
+    description: 'Only customers can place offers.',
+    status: 'error',
+    duration: 5000,
+    isClosable: true,
+  });
+  return;
+}
+
+
+
+if(!canMakeOffer){
+  navigate('/offer-history');
+}
 
     if(canMakeOffer){
       console.log('Can place offer');
@@ -175,6 +222,8 @@ const placeOffer = async (offerDetails) => {
 
 
 
+
+  // Function to send an email
   const handleSendEmail = () => {
     // Simulate email sending logic here
     // For now, just show a toast notification
@@ -188,6 +237,9 @@ const placeOffer = async (offerDetails) => {
   };
 
 
+
+
+  // Function to make a call
   const handleCall = () => {
 
     // For now we are  just making a toast
@@ -202,7 +254,7 @@ const placeOffer = async (offerDetails) => {
 
 
   return (
-    user&&user.role==='CUSTOMER' &&
+  
     <>
       <VStack
         spacing={4}
@@ -217,10 +269,10 @@ const placeOffer = async (offerDetails) => {
         w={{ base: '100%', md: '400px' }}
       >
         <HStack spacing={4}>
-         {/**<Image borderRadius='full' boxSize='50px' src={searchedHouse.agent.image} /> */} 
+         {<Image borderRadius='full' boxSize='50px' src={Agent1} /> } 
           <VStack align="start">
-           {/**<Text fontWeight='bold'>{searchedHouse.agent.name}</Text> */} 
-            {/**<Text fontSize='sm'>{searchedHouse.agent.phone}</Text> */}
+           {<Text fontWeight='bold'>{searchedHouse.name}</Text> } 
+            {<Text fontSize='sm'>Cool property owner</Text> }
           </VStack>
         </HStack>
         
@@ -236,14 +288,32 @@ const placeOffer = async (offerDetails) => {
 
 
 
-        <Button colorScheme="teal" onClick={handlePlaceOffer}>Place Offer</Button>
+        <Button colorScheme="teal" onClick={handlePlaceOffer}>
+         {canMakeOffer ? 'Place Offer' : 'View Offer Status'} 
+          </Button>
+
+
+                {isSignInModalOpen && (
+        <SignInModal
+          isOpen={isSignInModalOpen}
+          onClose={() => setIsSignInModalOpen(false)}
+          onSignIn={handleSignInForOffer}
+        />
+           )}
+
+
+
+
+          
         <Button colorScheme="blue" onClick={handleSendEmail}>Send Email</Button>
+
         <Button colorScheme="green" onClick={handleCall}>Call</Button>
       </VStack>
 
 
 
 {/* Modal for placing an offer */}
+
 <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
