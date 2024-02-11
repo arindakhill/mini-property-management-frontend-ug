@@ -26,7 +26,8 @@ const Header = () => {
 
   //get the user role for jwt token
 
-  const userRole = user ? jwtDecode(sessionStorage.getItem('token')).role : null;
+
+
 
 //handler for the buy and sell buttons
 const handleListingTypeChange = (listingType) => {
@@ -38,8 +39,12 @@ const handleListingTypeChange = (listingType) => {
    const handleSignIn = async (credentials) => {
     try {
       await signIn(credentials);
-      onSignInClose();
+    
+      console.log(user);
+
+
       setErrorMessage(''); // Clear error message
+      onSignInClose(); // Close the sign in modal
     } catch (error) {
       setErrorMessage(error.message);
       console.error("Sign in failed:", error.message);
@@ -58,6 +63,7 @@ const handleListingTypeChange = (listingType) => {
 
 
 // Determine whether to show the "View Offer History" button
+
 const shouldShowOfferHistoryButton = user && location.pathname !== '/offer-history' && location.pathname !== '/manage-account';
 const shouldShowManageAccountButton = user && location.pathname === '/manage-account' ;
 const isCurrentUserAdmin = user && user.role === 'ADMIN';
@@ -107,7 +113,7 @@ const isCurrentUserOwner = user && user.role === 'OWNER';
 }
 
 
-                  <Box display={{ base: 'none', md: 'flex' }}>{user.firstname}</Box>
+                  <Box display={{ base: 'none', md: 'flex' }}>{user?.firstname}</Box>
                 </HStack>
               </MenuButton>
 
