@@ -198,10 +198,6 @@ const isNotLoggedIn = !user;
 
         </VStack>
 
-
-
-{/**No one logged in */}
-
         <VStack justify='center'>
 {isNotLoggedIn &&
           <Box h='100%' display={{ base: "none", lg: "block", xl:'none' }} >

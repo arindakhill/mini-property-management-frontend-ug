@@ -17,6 +17,7 @@ import {
   Checkbox,
   FormErrorMessage,
   useToast,
+  Spinner
 } from '@chakra-ui/react';
 
 const UserRegistration = ({ isOpen, onClose }) => {
@@ -32,6 +33,7 @@ const UserRegistration = ({ isOpen, onClose }) => {
   const [formErrors, setFormErrors] = useState({});
   const { signUp } = useAuth();
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -110,6 +112,7 @@ if(formData.role === 'OWNER'){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!validateForm()) {
       return;
     }
@@ -131,6 +134,8 @@ if(formData.role === 'OWNER'){
         duration: 5000,
         isClosable: true,
       });
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -187,10 +192,18 @@ if(formData.role === 'OWNER'){
             I am a Property Owner
           </Checkbox>
         </ModalBody>
+
+
         <ModalFooter>
-          <Button colorScheme="blue" onClick={handleSubmit}>Sign Up</Button>
-          <Button onClick={onClose} ml={3}>Cancel</Button>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>Sign Up</Button>
+          )}
+          <Button variant="ghost" onClick={onClose}>Close</Button>
         </ModalFooter>
+
+
       </ModalContent>
     </Modal>
   );
